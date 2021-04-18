@@ -184,7 +184,8 @@ public class player : MonoBehaviour
             if (enter == true)
             {
                 this.transform.position = Vector3.up * 291f;
-                //game.DunEnterInPlayer();
+                game.DunEnterInPlayer();
+                
             }
             else
             {

@@ -45,7 +45,7 @@ public class GameManager : MonoBehaviour
         //DunEnterInPlayer();
     }
 
-    /*public void DunEnterInPlayer()
+    public void DunEnterInPlayer()
     {
         Debug.Log("진입");
         for (int MobCount=0; MobCount < 4; MobCount++)
@@ -57,7 +57,9 @@ public class GameManager : MonoBehaviour
             enemy.gamemanager = this;
             enemyCnt++;
         }
-    }*/
+    }
+
+    
 
     public void DunExitInPlayer()
     {

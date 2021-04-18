@@ -57,6 +57,7 @@ public class Boss : Enemy
                 /*StartCoroutine(MisileShot());
                 break;
                 */
+                
             case 2:
             case 3:
                 StartCoroutine(RockShot());
