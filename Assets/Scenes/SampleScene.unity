@@ -4312,7 +4312,7 @@ TextMesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1324721687}
-  m_Text: Dungeon Enter
+  m_Text: "\uB358\uC804 \uC785\uC7A5"
   m_OffsetZ: 0
   m_CharacterSize: 2
   m_LineSpacing: 1
