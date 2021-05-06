@@ -42,7 +42,7 @@ public class GameManager : MonoBehaviour
         GamePanel.SetActive(true);
 
         player.gameObject.SetActive(true);
-        //DunEnterInPlayer();
+        //DunEnterInPlayer(); 던 인터 에러 테스트용
     }
 
     public void DunEnterInPlayer()

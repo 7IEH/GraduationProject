@@ -32,23 +32,67 @@ public class Enemy : MonoBehaviour
         nav = GetComponent<NavMeshAgent>();
         anim = GetComponentInChildren<Animator>();
 
-        if(enemyType!=Type.D)
-            Invoke("ChaseStart", 2);
+
+
+        
     }
 
-    void ChaseStart()
-    {
-        isChase = true;
-        anim.SetBool("isWalk", true);
-    }
+   
 
     void Update()
     {
-        if (nav.enabled && enemyType != Type.D)
+        if (Vector3.Distance(target.position, transform.position) > 15f&& nav.enabled&&enemyType!=Type.D)
         {
-            nav.SetDestination(target.position); //setDestionation():도착할 목표 위치 지정 함수
-            nav.isStopped = !isChase;
+            isChase = false;
+            nav.isStopped = false;
+            anim.SetBool("isWalk", false);
+            returnBase();
         }
+        else if(Vector3.Distance(target.position, transform.position) <= 15f && nav.enabled && enemyType != Type.D)
+        {
+            isChase = true;
+            anim.SetBool("isWalk", true);
+            nav.SetDestination(target.position); //setDestionation():도착할 목표 위치 지정 함수
+            nav.isStopped = false;  
+        }
+    }
+
+    void returnBase()
+    {
+        nav.isStopped = false;
+        anim.SetBool("isWalk", true);
+        if (enemyType == Type.A)
+        {
+            nav.SetDestination(gamemanager.enemyZones[0].position);
+            if (Vector3.Distance(transform.position, gamemanager.enemyZones[0].position) < 1f)
+            {
+                nav.isStopped = true;
+                anim.SetBool("isWalk", false);
+            }
+        }
+        else if (enemyType == Type.B)
+        {
+            nav.SetDestination(gamemanager.enemyZones[1].position);
+            Debug.Log(Vector3.Distance(transform.position, gamemanager.enemyZones[1].position));
+            if (Vector3.Distance(transform.position, gamemanager.enemyZones[1].position) < 3f)
+            {
+                Debug.Log("B");
+                nav.isStopped = true;
+                anim.SetBool("isWalk", false); //대쉬 공격 수정 사항 1. 애초에 따라오는 속도가 너무 빠름
+            }
+        }
+        else
+        {
+            nav.SetDestination(gamemanager.enemyZones[2].position);
+            if (Vector3.Distance(transform.position, gamemanager.enemyZones[2].position) < 2f)
+            {
+                Debug.Log("C");
+                nav.isStopped = true;
+                anim.SetBool("isWalk", false); // 원거리 공격 수정 사항 1. 공격 딜레이 때문에 따라오지 않음 => 일정 거리 안에서 멈춰서 사격하는걸로 바꾸기
+            }
+        }
+        
+
     }
 
     void FixedUpdate()
