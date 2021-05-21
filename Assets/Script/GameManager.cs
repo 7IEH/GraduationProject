@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -21,6 +22,7 @@ public class GameManager : MonoBehaviour
 
     public GameObject menuPanel;
     public GameObject GamePanel;
+    public GameObject OverPanel;
     public Text playerHealthTxt;
 
     public Transform[] enemyZones;
@@ -43,6 +45,18 @@ public class GameManager : MonoBehaviour
 
         player.gameObject.SetActive(true);
         //DunEnterInPlayer(); 던 인터 에러 테스트용
+    }
+    public void GameOver()
+    {
+        GamePanel.SetActive(false);
+        OverPanel.SetActive(true);
+
+        
+    }
+
+    public void Restart()
+    {
+        SceneManager.LoadScene(0);
     }
 
     public void DunEnterInPlayer()

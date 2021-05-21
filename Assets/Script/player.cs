@@ -32,6 +32,7 @@ public class player : MonoBehaviour
     bool isReload;
     bool isBorder; // 플레이어가 벽에 부딪힐때 통과하는 물리문제를 위한 bool 값
     bool isDamage; // 플레이어가 몬스터에게 맞고 잠시 무적이 되는 시간(연속적인 적의 공격으로 부터) 
+    bool isDead;
 
     Vector3 moveVec;
     Vector3 dodgeMove;
@@ -108,6 +109,16 @@ public class player : MonoBehaviour
         if (isBossAtk)
             rigidbody.velocity = Vector3.zero;
 
+        if (health <= 0 && !isDead)
+            OnDie();
+
+    }
+
+    void OnDie()
+    {
+        anim.SetTrigger("doDie");
+        isDead = true;
+        game.GameOver();
     }
 
     void OnTriggerStay(Collider other)
@@ -162,7 +173,7 @@ public class player : MonoBehaviour
     }
     public void profession(int num)
     {
-        if (!isJump && !isDodge && moveVec == Vector3.zero && !pro_player)
+        if (!isJump && !isDodge && moveVec == Vector3.zero && !pro_player && !isDead)
         {
             pro_player = true;
             profession_player = profession_num[num].GetComponent<Class_Behavior>(); 
@@ -199,7 +210,7 @@ public class player : MonoBehaviour
 
     void Interaction()
     {
-        if (eDown && nearObject != null && !isDodge && !isJump)
+        if (eDown && nearObject != null && !isDodge && !isJump && !isDead)
         {
             if (nearObject.tag == "class")
             {
@@ -233,6 +244,9 @@ public class player : MonoBehaviour
         if (isDodge)
             moveVec = dodgeMove;
 
+        if (isDead)
+            moveVec = Vector3.zero;
+
         if (!isBorder)
             transform.position += moveVec * speed * (rDown ? 1f :0.3f)* Time.deltaTime;
 
@@ -246,7 +260,7 @@ public class player : MonoBehaviour
         transform.LookAt(transform.position + moveVec);
 
         //2. 마우스에 의한 회전
-        if (fDown)
+        if (fDown && !isDead)
         {
             Ray ray = followCamera.ScreenPointToRay(Input.mousePosition);
             RaycastHit rayHit;
@@ -260,7 +274,7 @@ public class player : MonoBehaviour
 
     void Jump()
     {
-        if (jDown && !isJump && moveVec == Vector3.zero && !isDodge)
+        if (jDown && !isJump && moveVec == Vector3.zero && !isDodge && !isDead)
         {
             rigidbody.AddForce(Vector3.up * 15f, ForceMode.Impulse);
             isJump = true;
@@ -271,7 +285,7 @@ public class player : MonoBehaviour
 
     void Dodge()
     {
-        if (jDown && !isJump && moveVec != Vector3.zero && !isDodge)
+        if (jDown && !isJump && moveVec != Vector3.zero && !isDodge && !isDead)
         {
             dodgeMove = moveVec;
             speed *= 2;
@@ -297,7 +311,7 @@ public class player : MonoBehaviour
         isFireReady = profession_player.rate < fireDelay;
 
 
-        if (fDown && isFireReady && !isDodge && !isReload)
+        if (fDown && isFireReady && !isDodge && !isReload && !isDead)
         {
             
             profession_player.Use();
@@ -331,7 +345,7 @@ public class player : MonoBehaviour
             return;
         }
 
-        if (!isJump && !isDodge)
+        if (!isJump && !isDodge && !isDead)
         {
             anim.SetTrigger("doReload");
         }
