@@ -184,7 +184,7 @@ public class player : MonoBehaviour
             }
             profession_player.gameObject.SetActive(true);
 
-            this.transform.position = Vector3.up * 189f;// 플레이어 선택 시 이동
+            //this.transform.position = Vector3.up * 189f;// 플레이어 선택 시 이동
         }
     }
 
@@ -194,8 +194,8 @@ public class player : MonoBehaviour
         {
             if (enter == true)
             {
-                this.transform.position = Vector3.up * 291f;
-                game.DunEnterInPlayer();
+                this.transform.position = new Vector3(175, 93, 69);
+                //game.DunEnterInPlayer();
                 
             }
             else
