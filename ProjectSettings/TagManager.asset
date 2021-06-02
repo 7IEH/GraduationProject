@@ -13,6 +13,9 @@ TagManager:
   - Enemy
   - EnemyBullet
   - Dungeon
+  - Boss1
+  - GreenKey
+  - Return
   layers:
   - Default
   - TransparentFX

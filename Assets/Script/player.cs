@@ -7,6 +7,9 @@ public class player : MonoBehaviour
     public int health;
     public float speed;
 
+    public GameObject[] Keys; // 게임 키 배열
+    public bool[] hasKeys; // 가지고 있는 키
+
     public GameObject[] profession_num; // 클래스 선택시 사용하는 오브젝트(무기) 변수
     public Camera followCamera;
     public GameManager game;
@@ -132,7 +135,27 @@ public class player : MonoBehaviour
         {
             nearObject = other.gameObject;
         }
-      
+        else if (other.tag == "Return")//집으로 귀환
+        {
+            nearObject = other.gameObject;
+        }
+        else if (other.tag == "Boss1")
+        {
+            nearObject = other.gameObject;//보스룸 입장
+        }
+        else if (other.tag == "GreenKey")
+        {
+            nearObject = other.gameObject;//보스 죽이고 얻는 키
+        }
+        else if (other.tag == "BlueKey")
+        {
+            nearObject = other.gameObject;//보스 죽이고 얻는 키
+        }
+        else if (other.tag == "RedKey")
+        {
+            nearObject = other.gameObject;//보스 죽이고 얻는 키
+        }
+
     }
 
     void OnTriggerExit(Collider other)
@@ -146,11 +169,52 @@ public class player : MonoBehaviour
         } 
         else if (other.tag == "Dungeon") // 던전 입장
         {
-            DunEnter dunenter = nearObject.GetComponent<DunEnter>();
-            dunenter.Exit();
+            if (hasKeys[0] == false)
+            {
+                DunEnter dunenter = nearObject.GetComponent<DunEnter>();
+                dunenter.GreenExit();
+                nearObject = null;
+            }
+            else if (hasKeys[2] == true)
+            {
+                DunEnter dunenter = nearObject.GetComponent<DunEnter>();
+                dunenter.FinalExit();
+                nearObject = null;
+            }
+            else if ((hasKeys[2] == false) && (hasKeys[1] == true) && (hasKeys[0] == true))
+            {
+                DunEnter dunenter = nearObject.GetComponent<DunEnter>();
+                dunenter.RedExit();
+                nearObject = null;
+            }
+            else if ((hasKeys[2] == false) && (hasKeys[1] == false) && (hasKeys[0] == true))
+            {
+                DunEnter dunenter = nearObject.GetComponent<DunEnter>();
+                dunenter.BlueExit();
+                nearObject = null;
+            }
+
+        }
+        else if (other.tag == "Return")
+        {
             nearObject = null;
         }
-       
+        else if (other.tag == "Boss1")
+        {
+            nearObject = null;
+        }
+        else if (other.tag == "GreenKey")
+        {
+            nearObject = null;
+        }
+        else if (other.tag == "BlueKey")
+        {
+            nearObject = null;
+        }
+        else if (other.tag == "RedKey")
+        {
+            nearObject = null;
+        }
     }
 
     void Awake()
@@ -188,7 +252,7 @@ public class player : MonoBehaviour
         }
     }
 
-    public void PlayerInDungeon(bool enter)
+    public void PlayerInGreenDungeon(bool enter)
     {
         if (!isJump && !isDodge && moveVec == Vector3.zero)
         {
@@ -201,11 +265,41 @@ public class player : MonoBehaviour
             else
             {
                 DunEnter dunenter = nearObject.GetComponent<DunEnter>();
-                dunenter.Exit();
+                dunenter.GreenExit();
             }
         }
     }
 
+    public void PlayerInBlueDungeon(bool enter)
+    {
+        if (!isJump && !isDodge && moveVec == Vector3.zero)
+        {
+            if (enter == true)
+            {
+                this.transform.position = new Vector3(428.414f, 295.849f, 264.4953f);
+                //game.DunEnterInPlayer();
+
+            }
+            else
+            {
+                DunEnter dunenter = nearObject.GetComponent<DunEnter>();
+                dunenter.BlueExit();
+            }
+        }
+    }
+
+
+    public void PlayerInGreenBoss()
+    {
+        if (!isJump && !isDodge && moveVec == Vector3.zero)
+            this.transform.position = new Vector3(428.16f,191.7046f,264.57f);
+    }
+
+    public void PlayerInBase()
+    {
+        if(!isJump && !isDodge && moveVec == Vector3.zero)
+            this.transform.position = new Vector3(175.24f, 1.27f, 69.7f);
+    }
     
 
     void Interaction()
@@ -219,10 +313,60 @@ public class player : MonoBehaviour
             }
             else if (nearObject.tag == "Dungeon")
             {
-                DunEnter dunenter = nearObject.GetComponent<DunEnter>();
-                dunenter.Enter(this);
+                if (hasKeys[0] == false)
+                {
+                    DunEnter dunenter = nearObject.GetComponent<DunEnter>();
+                    dunenter.GreenEnter(this);
+                }
+                else if (hasKeys[2] == true)
+                {
+                    DunEnter dunenter = nearObject.GetComponent<DunEnter>();
+                    dunenter.FinalEnter(this);
+                }
+                else if ((hasKeys[2] == false) && (hasKeys[1] == true) && (hasKeys[0] == true))
+                {
+                    DunEnter dunenter = nearObject.GetComponent<DunEnter>();
+                    dunenter.RedEnter(this);
+                }
+                else if ((hasKeys[2] == false) && (hasKeys[1] == false) && (hasKeys[0] == true))
+                {
+                    DunEnter dunenter = nearObject.GetComponent<DunEnter>();
+                    dunenter.BlueEnter(this);
+                }
             }
-          
+            else if (nearObject.tag == "Return")
+            {
+                PlayerInBase();
+            }
+            else if (nearObject.tag == "Boss1")
+            {
+                PlayerInGreenBoss();
+            }
+            else if (nearObject.tag == "GreenKey")
+            {
+                Item item = nearObject.GetComponent<Item>();
+                int keyIndex = item.value;
+                hasKeys[keyIndex] = true;
+
+                Destroy(nearObject);
+            }
+            else if (nearObject.tag == "BlueKey")
+            {
+                Item item = nearObject.GetComponent<Item>();
+                int keyIndex = item.value;
+                hasKeys[keyIndex] = true;
+
+                Destroy(nearObject);
+            }
+            else if (nearObject.tag == "RedKey")
+            {
+                Item item = nearObject.GetComponent<Item>();
+                int keyIndex = item.value;
+                hasKeys[keyIndex] = true;
+
+                Destroy(nearObject);
+            }
+
         }
     }
 
