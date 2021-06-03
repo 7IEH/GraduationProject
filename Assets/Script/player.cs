@@ -139,6 +139,10 @@ public class player : MonoBehaviour
         {
             nearObject = other.gameObject;
         }
+        else if (other.tag == "LockKey")
+        {
+            nearObject = other.gameObject;
+        }
         else if (other.tag == "Boss1")
         {
             nearObject = other.gameObject;//보스룸 입장
@@ -194,6 +198,10 @@ public class player : MonoBehaviour
                 nearObject = null;
             }
 
+        }
+        else if (other.tag == "Return")
+        {
+            nearObject = null;
         }
         else if (other.tag == "Return")
         {
@@ -337,6 +345,12 @@ public class player : MonoBehaviour
             else if (nearObject.tag == "Return")
             {
                 PlayerInBase();
+            }
+            else if (nearObject.tag == "LockKey")
+            {
+                game.LockKey = true;
+
+                Destroy(nearObject);
             }
             else if (nearObject.tag == "Boss1")
             {

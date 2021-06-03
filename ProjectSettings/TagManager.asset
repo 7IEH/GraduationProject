@@ -16,6 +16,8 @@ TagManager:
   - Boss1
   - GreenKey
   - Return
+  - Key
+  - LockKey
   layers:
   - Default
   - TransparentFX

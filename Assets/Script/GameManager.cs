@@ -8,9 +8,12 @@ public class GameManager : MonoBehaviour
 {
     public GameObject menuCam;
     public GameObject gameCam;
+    public GameObject LockTrigger;
+    public GameObject EnterLock1;
+    public GameObject EnterLock2;
+
     public player player;
     public Boss boss;
-
    
     public int stage;
     public float playTime;
@@ -29,6 +32,8 @@ public class GameManager : MonoBehaviour
     public GameObject[] enemies;
     public List<int> enemyList;
 
+    public bool LockKey;//스테이지 잠금 해제 조건
+
     void Awake()
     {
         enemyList = new List<int>();
@@ -46,6 +51,24 @@ public class GameManager : MonoBehaviour
         player.gameObject.SetActive(true);
         //DunEnterInPlayer(); 던 인터 에러 테스트용
     }
+
+    public void StageStart()
+    {
+        LockTrigger.SetActive(false);
+        EnterLock1.SetActive(true);
+        EnterLock2.SetActive(true);
+        isBattle = true;
+        
+    }
+
+    public void StageEnd()
+    {
+        EnterLock1.SetActive(false);
+        EnterLock2.SetActive(false);
+        isBattle = false;
+    }
+
+
     public void GameOver()
     {
         GamePanel.SetActive(false);
@@ -83,5 +106,9 @@ public class GameManager : MonoBehaviour
     void LateUpdate()
     {
         playerHealthTxt.text = player.health +"/";
+        if (LockKey == true)
+        {
+            StageEnd();
+        }
     }
 }
