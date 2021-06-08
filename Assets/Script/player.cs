@@ -267,7 +267,7 @@ public class player : MonoBehaviour
             if (enter == true)
             {
                 this.transform.position = new Vector3(175, 93, 69);
-                //game.DunEnterInPlayer();
+                
                 
             }
             else
@@ -285,7 +285,7 @@ public class player : MonoBehaviour
             if (enter == true)
             {
                 this.transform.position = new Vector3(428.414f, 295.849f, 264.4953f);
-                //game.DunEnterInPlayer();
+                
 
             }
             else
@@ -300,7 +300,11 @@ public class player : MonoBehaviour
     public void PlayerInGreenBoss()
     {
         if (!isJump && !isDodge && moveVec == Vector3.zero)
-            this.transform.position = new Vector3(428.16f,191.7046f,264.57f);
+        {
+            this.transform.position = new Vector3(428.16f, 191.7046f, 264.57f);
+            game.Boss();
+        }
+            
     }
 
     public void PlayerInBase()

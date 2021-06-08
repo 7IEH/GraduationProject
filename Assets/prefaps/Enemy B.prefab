@@ -108,7 +108,7 @@ Transform:
   m_GameObject: {fileID: 5318863611809546057}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
   m_Children:
   - {fileID: 711190982479731105}
   - {fileID: 3940537050680685764}
@@ -192,6 +192,7 @@ MonoBehaviour:
   meshs: []
   nav: {fileID: 0}
   anim: {fileID: 0}
+  gamemanager: {fileID: 0}
 --- !u!1001 &1032468989094608458
 PrefabInstance:
   m_ObjectHideFlags: 0

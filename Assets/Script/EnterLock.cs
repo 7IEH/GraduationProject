@@ -8,7 +8,8 @@ public class EnterLock : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
+        int gate = 1;
         if (other.gameObject.tag == "Player")
-            manager.StageStart();
+            manager.StageStart(gate);
     }
 }

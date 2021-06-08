@@ -17,6 +17,7 @@ public class Enemy : MonoBehaviour
     public BoxCollider meleeArea; // 근접 몬스터 범위
     public GameObject bullet;
 
+    public Vector3 responPosition;
     public Rigidbody rigid;
     public BoxCollider boxCollider;
     public MeshRenderer[] meshs;
@@ -32,7 +33,7 @@ public class Enemy : MonoBehaviour
         nav = GetComponent<NavMeshAgent>();
         anim = GetComponentInChildren<Animator>();
 
-
+        responPosition = this.transform.position;
 
         
     }
@@ -41,14 +42,15 @@ public class Enemy : MonoBehaviour
 
     void Update()
     {
-        if (Vector3.Distance(target.position, transform.position) > 15f&& nav.enabled&&enemyType!=Type.D)
+        
+        if (Vector3.Distance(target.position, transform.position) > 2f&& nav.enabled&&enemyType!=Type.D)
         {
             isChase = false;
             nav.isStopped = false;
             anim.SetBool("isWalk", false);
             returnBase();
         }
-        else if(Vector3.Distance(target.position, transform.position) <= 15f && nav.enabled && enemyType != Type.D)
+        else if(Vector3.Distance(target.position, transform.position) <= 2f && nav.enabled && enemyType != Type.D)
         {
             isChase = true;
             anim.SetBool("isWalk", true);
@@ -63,8 +65,8 @@ public class Enemy : MonoBehaviour
         anim.SetBool("isWalk", true);
         if (enemyType == Type.A)
         {
-            nav.SetDestination(gamemanager.enemyZones[0].position);
-            if (Vector3.Distance(transform.position, gamemanager.enemyZones[0].position) < 1f)
+            nav.SetDestination(responPosition);
+            if (Vector3.Distance(transform.position, responPosition) < 2f)
             {
                 nav.isStopped = true;
                 anim.SetBool("isWalk", false);
@@ -74,7 +76,7 @@ public class Enemy : MonoBehaviour
         {
             nav.SetDestination(gamemanager.enemyZones[1].position);
             Debug.Log(Vector3.Distance(transform.position, gamemanager.enemyZones[1].position));
-            if (Vector3.Distance(transform.position, gamemanager.enemyZones[1].position) < 3f)
+            if (Vector3.Distance(transform.position, gamemanager.enemyZones[1].position) < 2f)
             {
                 Debug.Log("B");
                 nav.isStopped = true;
@@ -84,7 +86,7 @@ public class Enemy : MonoBehaviour
         else
         {
             nav.SetDestination(gamemanager.enemyZones[2].position);
-            if (Vector3.Distance(transform.position, gamemanager.enemyZones[2].position) < 2f)
+            if (Vector3.Distance(transform.position, gamemanager.enemyZones[2].position) < 0.4f)
             {
                 Debug.Log("C");
                 nav.isStopped = true;
@@ -211,16 +213,16 @@ public class Enemy : MonoBehaviour
     {
         foreach(MeshRenderer mesh in meshs)
             mesh.material.color = Color.red;
-        yield return new WaitForSeconds(0.1f);
-        
-
+      
         if (curHealth > 0)
         {
+            yield return new WaitForSeconds(0.1f);
             foreach (MeshRenderer mesh in meshs)
                 mesh.material.color = Color.white;
         }
-        else
+        else if(curHealth<=0&&!isDead)
         {
+            
             foreach (MeshRenderer mesh in meshs)
                 mesh.material.color = Color.gray;
 
