@@ -12,8 +12,8 @@ public class player : MonoBehaviour
 
     public GameObject[] profession_num; // 클래스 선택시 사용하는 오브젝트(무기) 변수
     public Camera followCamera;
-    public GameManager game;
-
+    public GameManager manager;
+    public Luna luna;
 
     public int testint=1;
     public int bulletCount=0;
@@ -25,25 +25,26 @@ public class player : MonoBehaviour
     float fireDelay; //공격 딜레이
 
     bool pro_player=false;
-    bool rDown; // Run button input
-    bool eDown; // Interaction button input
-    bool jDown; // Jump button input
+    public bool rDown; // Run button input
+    public bool eDown; // Interaction button input
+    public bool jDown; // Jump button input
     bool isJump;
     bool isDodge;
-    bool fDown; //Attack button input
+    public bool fDown; //Attack button input
     bool isFireReady; // 딜레이 완료시 공격 준비 완료
     bool isReload;
     bool isBorder; // 플레이어가 벽에 부딪힐때 통과하는 물리문제를 위한 bool 값
     bool isDamage; // 플레이어가 몬스터에게 맞고 잠시 무적이 되는 시간(연속적인 적의 공격으로 부터) 
     bool isDead;
 
-    Vector3 moveVec;
+    public Vector3 moveVec;
     Vector3 dodgeMove;
 
     Rigidbody rigidbody;
 
     Animator anim;
     GameObject nearObject;
+    GameObject LunaObject;
     Class_Behavior profession_player;// 플레이어가 가진 직업
     MeshRenderer[] meshs;
 
@@ -121,7 +122,7 @@ public class player : MonoBehaviour
     {
         anim.SetTrigger("doDie");
         isDead = true;
-        game.GameOver();
+        manager.GameOver();
     }
 
     void OnTriggerStay(Collider other)
@@ -158,6 +159,11 @@ public class player : MonoBehaviour
         else if (other.tag == "RedKey")
         {
             nearObject = other.gameObject;//보스 죽이고 얻는 키
+        }
+        else if (other.tag == "Luna")
+        {
+            LunaObject = other.gameObject;//루나 채팅용
+            nearObject = other.gameObject;//루나
         }
 
     }
@@ -223,6 +229,10 @@ public class player : MonoBehaviour
         {
             nearObject = null;
         }
+        else if (other.tag == "Luna")
+        {
+            nearObject = null;
+        }
     }
 
     void Awake()
@@ -238,7 +248,6 @@ public class player : MonoBehaviour
         Move();
         Turn();
         Interaction();
-        Jump();
         Dodge();
         Attack();
         Reload();
@@ -255,6 +264,12 @@ public class player : MonoBehaviour
                 //또는 직업에 맞지 않는 무기 장착시 사용
             }
             profession_player.gameObject.SetActive(true);
+            Class_Select class_select = nearObject.GetComponent<Class_Select>();
+            class_select.Exit();
+            nearObject = null;
+            objData objdata = LunaObject.GetComponent<objData>();
+            objdata.id = 1002;
+            LunaObject = null;
 
             //this.transform.position = Vector3.up * 189f;// 플레이어 선택 시 이동
         }
@@ -302,7 +317,7 @@ public class player : MonoBehaviour
         if (!isJump && !isDodge && moveVec == Vector3.zero)
         {
             this.transform.position = new Vector3(428.16f, 191.7046f, 264.57f);
-            game.Boss();
+            manager.Boss();
         }
             
     }
@@ -322,6 +337,10 @@ public class player : MonoBehaviour
             {
                 Class_Select class_select = nearObject.GetComponent<Class_Select>();
                 class_select.Enter(this);
+            }
+            else if (nearObject.tag == "Luna")
+            {
+                manager.TalkAction(nearObject);
             }
             else if (nearObject.tag == "Dungeon")
             {
@@ -352,7 +371,7 @@ public class player : MonoBehaviour
             }
             else if (nearObject.tag == "LockKey")
             {
-                game.LockKey = true;
+                manager.LockKey = true;
 
                 Destroy(nearObject);
             }
@@ -390,9 +409,10 @@ public class player : MonoBehaviour
 
     void GetInput()
     {
-        hAxis = Input.GetAxisRaw("Horizontal");
-        vAxis = Input.GetAxisRaw("Vertical");
-        rDown = Input.GetButton("Run");
+      
+        hAxis = manager.isChat ? 0 : Input.GetAxisRaw("Horizontal");
+        vAxis = manager.isChat ? 0 : Input.GetAxisRaw("Vertical");
+        rDown = manager.isChat ? false : Input.GetButton("Run");
         eDown = Input.GetButtonDown("Interaction");
         jDown = Input.GetButtonDown("Jump");
         fDown = Input.GetButtonDown("Fire1"); // button 으로 바꿀시 마우스 누르고 있으면 계속 나감
@@ -434,7 +454,7 @@ public class player : MonoBehaviour
         }
     }
 
-    void Jump()
+    /*void Jump()
     {
         if (jDown && !isJump && moveVec == Vector3.zero && !isDodge && !isDead)
         {
@@ -443,7 +463,7 @@ public class player : MonoBehaviour
             anim.SetTrigger("doJump");
             anim.SetBool("isJump", true);
         }
-    }
+    }*/
 
     void Dodge()
     {

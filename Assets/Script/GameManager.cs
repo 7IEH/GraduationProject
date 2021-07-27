@@ -6,8 +6,23 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+    public TalkManager talkManager;
+    public Animator TutorialPanel;
+    public Text TutorialText;
+    public Animator LunaTalkpanel;
+    public Text LunaText;
+    public GameObject scanObject;
+    public bool isChat = false;
+    bool tu_next1 = false;
+    bool tu_next2 = false;
+    bool tu_next3 = false;
+    bool tu_text5 = false;
+    bool tu_index = false;
+    public objData objdata;
+
     int gate_num;
 
+    GameObject LunaObject;
     public GameObject menuCam;
     public GameObject gameCam;
     public GameObject LockTrigger;
@@ -45,6 +60,7 @@ public class GameManager : MonoBehaviour
     public int enemyCntB;
     public int enemyCntC;
     public int enemyCnt;
+    public int talkIndex;
 
     public GameObject menuPanel;
     public GameObject GamePanel;
@@ -70,9 +86,135 @@ public class GameManager : MonoBehaviour
 
         menuPanel.SetActive(false);
         GamePanel.SetActive(true);
+        TutorialPanel.SetBool("isShow", true);
 
         player.gameObject.SetActive(true);
+        Tutorial(1);
         
+    }
+
+    public void Tutorial(int tu_num)
+    {
+        int index = tu_num;
+        if (index == 1)
+        {
+            if (player.moveVec == Vector3.zero)
+            {
+                TutorialText.text = "방향키는 WASD 입니다.";
+                tu_next1 = true;
+            }
+        }
+        else if (index == 2)
+        {
+            if (player.rDown == false)
+            {
+                TutorialText.text = " 대쉬는 방향키를 누른 상태에서 SHIFT를 눌러주세요.";
+                tu_next2 = true;
+            }
+            
+        }
+        else if (index == 3)
+        {
+            if (player.jDown == false)
+            {
+                TutorialText.text = " 닷지는 방향키를 누른 상태에서 SPACE를 눌러주세요.";
+                tu_next3 = true;
+            }
+        }
+        else if (index == 4)
+        {
+            TutorialText.text = " 기본 조작법은 끝났습니다.\n 화살표를 따라 마을로 이동해주세요.";
+        }
+
+        else if (index == 5)
+        {
+            TutorialText.text = " 마을입니다.\n 마을안에 루나를 만나 직업을 고른 뒤\n 설명을 들어주세요.\n( NPC 및 상호작용 키는 E키입니다. )";
+            
+        }
+        else if (index == 6)
+        {
+            if (player.fDown == false)
+            {
+                TutorialPanel.SetBool("isShow", true);
+                TutorialText.text = " 공격 키는 마우스 왼쪽 버튼입니다.";
+                tu_text5 = true;
+            }
+            
+        }
+
+        
+    }
+    public void TalkAction(GameObject scanObj)
+    {
+        isChat = true;
+        scanObject = scanObj;
+        TutorialPanel.SetBool("isShow", false);
+        LunaTalkpanel.SetBool("isShow", true);
+        objdata = scanObject.GetComponent<objData>();
+        if (objdata.id == 1000)
+        {
+            LunaObject = scanObject;
+        }
+        Talk(objdata.id, objdata.isNPC);
+        
+    }
+
+    void Talk(int id,bool isNpc)
+    {
+        string talkData = talkManager.GetTalk(id, talkIndex);
+
+        if (talkData == null)
+        {
+            isChat = false;
+            talkIndex = 0;
+            if (id == 1000)
+            {
+                objdata.id++;
+                LunaTalkpanel.SetBool("isShow", false);
+                return;
+            }
+            else if (id == 1001)
+            {
+                LunaTalkpanel.SetBool("isShow", false);
+                return;
+            }
+            else if (id == 1002)
+            {
+                LunaTalkpanel.SetBool("isShow", false);
+                Tutorial(6);
+                return;
+            }
+            else if (id == 1003)
+            {
+                LunaTalkpanel.SetBool("isShow", false);
+                return;
+            }
+            
+        }
+        if (isNpc)
+        {
+            if (id == 1000)//luna
+            {
+                LunaText.text = talkData;
+            }
+            else if (id == 1001)
+            {
+                LunaText.text = talkData;
+            }
+            else if(id == 1002)
+            {
+                LunaText.text = talkData;
+            }
+            else if (id == 1003)
+            {
+                LunaText.text = talkData;
+            }
+        }
+        else
+        {
+            
+        }
+        talkIndex++;
     }
 
     public void StageStart(int gate)
@@ -278,6 +420,34 @@ public class GameManager : MonoBehaviour
         if (enemyCnt<=0 && isBattle==true)
         {
             StageEnd();
+        }
+        if (player.moveVec != Vector3.zero && tu_next1 == true)
+        {
+            tu_next1 = false;
+            Tutorial(2);
+        }
+        if (player.rDown==true && tu_next2 == true)
+        {
+            tu_next2 = false;
+            Tutorial(3);
+        }
+        if (player.jDown == true && tu_next3 == true && player.moveVec != Vector3.zero)
+        {
+            tu_next3 = false;
+            Tutorial(4);
+        }
+        if (player.fDown == true && tu_text5 == true)
+        {
+            if (tu_index == false)
+            {
+                TutorialPanel.SetBool("isShow", false);
+                objdata = LunaObject.GetComponent<objData>();
+                objdata.id++;
+                LunaObject = null;
+                tu_index = true;
+            }
+            else
+                return;
         }
     }
 }

@@ -43,14 +43,14 @@ public class Enemy : MonoBehaviour
     void Update()
     {
         
-        if (Vector3.Distance(target.position, transform.position) > 2f&& nav.enabled&&enemyType!=Type.D)
+        if (Vector3.Distance(target.position, transform.position) > 5f&& nav.enabled&&enemyType!=Type.D)
         {
             isChase = false;
             nav.isStopped = false;
             anim.SetBool("isWalk", false);
             returnBase();
         }
-        else if(Vector3.Distance(target.position, transform.position) <= 2f && nav.enabled && enemyType != Type.D)
+        else if(Vector3.Distance(target.position, transform.position) <= 5f && nav.enabled && enemyType != Type.D)
         {
             isChase = true;
             anim.SetBool("isWalk", true);
@@ -66,7 +66,7 @@ public class Enemy : MonoBehaviour
         if (enemyType == Type.A)
         {
             nav.SetDestination(responPosition);
-            if (Vector3.Distance(transform.position, responPosition) < 2f)
+            if (Vector3.Distance(transform.position, responPosition) < 0.5f)
             {
                 nav.isStopped = true;
                 anim.SetBool("isWalk", false);

@@ -18,6 +18,7 @@ TagManager:
   - Return
   - Key
   - LockKey
+  - Luna
   layers:
   - Default
   - TransparentFX
