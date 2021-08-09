@@ -9,7 +9,7 @@ public class Class_Select : MonoBehaviour
 
     player enterplayer;
 
-    public void Enter(player player)
+    public void Enter(player player) // 수정 player player 삭제
     {
         enterplayer = player;
         uiGroup.anchoredPosition = Vector3.zero;
@@ -18,10 +18,5 @@ public class Class_Select : MonoBehaviour
     public void Exit()
     {
         uiGroup.anchoredPosition = Vector3.down * 1000;
-    }
-
-    public void Choose_Class(int index)
-    {
-
     }
 }
