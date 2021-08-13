@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+    public Animator GeneralPanel;
     public TalkManager talkManager;
     public Animator TutorialPanel;
     public Text TutorialText;
@@ -93,6 +94,18 @@ public class GameManager : MonoBehaviour
         
     }
 
+    public void GeneralStore(bool show)
+    {
+        if (show == true)
+        {
+            GeneralPanel.SetBool("isShow", show);
+        }
+        else if(show == false)
+        {
+            GeneralPanel.SetBool("isShow", show);
+        }
+
+    }
     public void Tutorial(int tu_num)
     {
         int index = tu_num;

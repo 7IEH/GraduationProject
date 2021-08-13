@@ -19,6 +19,7 @@ TagManager:
   - Key
   - LockKey
   - Luna
+  - Generalstore
   layers:
   - Default
   - TransparentFX

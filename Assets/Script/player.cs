@@ -165,6 +165,10 @@ public class player : MonoBehaviour
             LunaObject = other.gameObject;//루나 채팅용
             nearObject = other.gameObject;//루나
         }
+        else if (other.tag == "Generalstore")
+        {
+            nearObject = other.gameObject;
+        }
 
     }
 
@@ -231,6 +235,11 @@ public class player : MonoBehaviour
         }
         else if (other.tag == "Luna")
         {
+            nearObject = null;
+        }
+        else if (other.tag == "Generalstore")
+        {
+            manager.GeneralStore(false);
             nearObject = null;
         }
     }
@@ -402,6 +411,10 @@ public class player : MonoBehaviour
                 hasKeys[keyIndex] = true;
 
                 Destroy(nearObject);
+            }
+            else if (nearObject.tag == "Generalstore")
+            {
+                manager.GeneralStore(true);
             }
 
         }
