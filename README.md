@@ -14,7 +14,7 @@
 => 맵 => 아직 미구현  
 => 스킬 => 1. 직업고유스킬주고 아이템 스킬 주기  
            1-1 직업고유스킬줄거면 뭘 줄거냐  
-![UI 초기](https://user-images.githubusercontent.com/80614927/129826343-3d42a6b0-8d89-4bbf-bc59-50f963802f47.png)
+![UI 초기1](https://user-images.githubusercontent.com/80614927/129846166-f120c754-6d1c-426b-bb92-b12ced749f20.png)  
 2. 게임 시스템  
     2-1 플레이어(서주헌)  
     => 치명타(넣는다.) => 서주헌  
