@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class player : MonoBehaviour
 {
+
+    public int HpPotion;
+    public int Gold = 10000;
+
     public int health;
     public float speed;
 
@@ -15,8 +19,8 @@ public class player : MonoBehaviour
     public GameManager manager;
     public Luna luna;
 
-    public int testint=1;
-    public int bulletCount=0;
+    public int testint = 1;
+    public int bulletCount = 0;
 
 
     float hAxis;
@@ -24,7 +28,7 @@ public class player : MonoBehaviour
 
     float fireDelay; //공격 딜레이
 
-    bool pro_player=false;
+    bool pro_player = false;
     public bool rDown; // Run button input
     public bool eDown; // Interaction button input
     public bool jDown; // Jump button input
@@ -95,7 +99,7 @@ public class player : MonoBehaviour
     IEnumerator OnDamage(bool isBossAtk)
     {
         isDamage = true;
-        foreach(MeshRenderer mesh in meshs)
+        foreach (MeshRenderer mesh in meshs)
         {
             mesh.material.color = Color.yellow;
         }
@@ -132,7 +136,7 @@ public class player : MonoBehaviour
         {
             nearObject = other.gameObject;
         }
-        else if (other.tag == "Dungeon")// 던전 입장
+        else if (other.tag == "Dunenter")// 던전 입장
         {
             nearObject = other.gameObject;
         }
@@ -175,13 +179,13 @@ public class player : MonoBehaviour
     void OnTriggerExit(Collider other)
     {
         // 클래스 선택
-        if (other.tag == "class") 
+        if (other.tag == "class")
         {
             Class_Select class_select = nearObject.GetComponent<Class_Select>();
             class_select.Exit();
             nearObject = null;
-        } 
-        else if (other.tag == "Dungeon") // 던전 입장
+        }
+        else if (other.tag == "Dunenter") // 던전 입구에서 떠나는거
         {
             if (hasKeys[0] == false)
             {
@@ -266,7 +270,7 @@ public class player : MonoBehaviour
         if (!isJump && !isDodge && moveVec == Vector3.zero && !pro_player && !isDead)
         {
             pro_player = true;
-            profession_player = profession_num[num].GetComponent<Class_Behavior>(); 
+            profession_player = profession_num[num].GetComponent<Class_Behavior>();
             if (profession_player != null) //setactive 사용시 앞에 gameobject +
             {
                 //이미 정해진 직업이 있을경우
@@ -290,9 +294,9 @@ public class player : MonoBehaviour
         {
             if (enter == true)
             {
-                this.transform.position = new Vector3(175, 93, 69);
-                
-                
+                this.transform.position = new Vector3(-68, 33, 246);
+
+
             }
             else
             {
@@ -308,8 +312,8 @@ public class player : MonoBehaviour
         {
             if (enter == true)
             {
-                this.transform.position = new Vector3(428.414f, 295.849f, 264.4953f);
-                
+                this.transform.position = new Vector3(428.414f, 295.849f, 264.4953f);//블루던전 위치 바꾸기
+
 
             }
             else
@@ -328,15 +332,15 @@ public class player : MonoBehaviour
             this.transform.position = new Vector3(428.16f, 191.7046f, 264.57f);
             manager.Boss();
         }
-            
+
     }
 
     public void PlayerInBase()
     {
-        if(!isJump && !isDodge && moveVec == Vector3.zero)
+        if (!isJump && !isDodge && moveVec == Vector3.zero)
             this.transform.position = new Vector3(175.24f, 1.27f, 69.7f);
     }
-    
+
 
     void Interaction()
     {
@@ -351,27 +355,27 @@ public class player : MonoBehaviour
             {
                 manager.TalkAction(nearObject);
             }
-            else if (nearObject.tag == "Dungeon")
+            else if (nearObject.tag == "Dunenter")
             {
                 if (hasKeys[0] == false)
                 {
                     DunEnter dunenter = nearObject.GetComponent<DunEnter>();
-                    dunenter.GreenEnter(this);
+                    dunenter.GreenEnter();
                 }
                 else if (hasKeys[2] == true)
                 {
                     DunEnter dunenter = nearObject.GetComponent<DunEnter>();
-                    dunenter.FinalEnter(this);
+                    dunenter.FinalEnter();
                 }
                 else if ((hasKeys[2] == false) && (hasKeys[1] == true) && (hasKeys[0] == true))
                 {
                     DunEnter dunenter = nearObject.GetComponent<DunEnter>();
-                    dunenter.RedEnter(this);
+                    dunenter.RedEnter();
                 }
                 else if ((hasKeys[2] == false) && (hasKeys[1] == false) && (hasKeys[0] == true))
                 {
                     DunEnter dunenter = nearObject.GetComponent<DunEnter>();
-                    dunenter.BlueEnter(this);
+                    dunenter.BlueEnter();
                 }
             }
             else if (nearObject.tag == "Return")
@@ -422,7 +426,7 @@ public class player : MonoBehaviour
 
     void GetInput()
     {
-      
+
         hAxis = manager.isChat ? 0 : Input.GetAxisRaw("Horizontal");
         vAxis = manager.isChat ? 0 : Input.GetAxisRaw("Vertical");
         rDown = manager.isChat ? false : Input.GetButton("Run");
@@ -443,7 +447,7 @@ public class player : MonoBehaviour
             moveVec = Vector3.zero;
 
         if (!isBorder)
-            transform.position += moveVec * speed * (rDown ? 1f :0.3f)* Time.deltaTime;
+            transform.position += moveVec * speed * (rDown ? 1f : 0.3f) * Time.deltaTime;
 
         anim.SetBool("isWalk", moveVec != Vector3.zero);
         anim.SetBool("isRun", rDown);
@@ -508,9 +512,9 @@ public class player : MonoBehaviour
 
         if (fDown && isFireReady && !isDodge && !isReload && !isDead)
         {
-            
+
             profession_player.Use();
-            anim.SetTrigger(profession_player.type==Class_Behavior.Type.Worrior ? "doSwing" : "doShot"); 
+            anim.SetTrigger(profession_player.type == Class_Behavior.Type.Worrior ? "doSwing" : "doShot");
             fireDelay = 0;
             bulletCount++;
             if (bulletCount == 15)
@@ -523,7 +527,7 @@ public class player : MonoBehaviour
 
     void Reload()
     {
-        
+
         if (bulletCount != 15)
             return;
 
@@ -532,7 +536,7 @@ public class player : MonoBehaviour
             isReload = false;
             return;
         }
-            
+
 
         if (profession_player.type == Class_Behavior.Type.Worrior)
         {
@@ -544,7 +548,7 @@ public class player : MonoBehaviour
         {
             anim.SetTrigger("doReload");
         }
-        
+
 
         Invoke("ReloadOut", 1.5f);
     }
@@ -554,4 +558,8 @@ public class player : MonoBehaviour
         bulletCount = 0;
         isReload = false;
     }
+    void LateUpdate()
+    {
+    }
+
 }

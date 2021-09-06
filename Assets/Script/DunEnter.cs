@@ -8,9 +8,9 @@ public class DunEnter : MonoBehaviour
     player enterplayer;
     GameManager game;
 
-    public void GreenEnter(player player)
+    public void GreenEnter()
     {
-        enterplayer = player;
+        
         uiGroup1.anchoredPosition = Vector3.zero;
 
     }
@@ -20,9 +20,9 @@ public class DunEnter : MonoBehaviour
         uiGroup1.anchoredPosition = Vector3.down * 2000;
     }
 
-    public void BlueEnter(player player)
+    public void BlueEnter()
     {
-        enterplayer = player;
+        
         uiGroup2.anchoredPosition = Vector3.zero;
 
     }
@@ -31,9 +31,9 @@ public class DunEnter : MonoBehaviour
     {
         uiGroup2.anchoredPosition = Vector3.down * 3000;
     }
-    public void RedEnter(player player)
+    public void RedEnter()
     {
-        enterplayer = player;
+        
         uiGroup3.anchoredPosition = Vector3.zero;
 
     }
@@ -43,9 +43,9 @@ public class DunEnter : MonoBehaviour
         uiGroup3.anchoredPosition = Vector3.down * 4000;
     }
 
-    public void FinalEnter(player player)
+    public void FinalEnter()
     {
-        enterplayer = player;
+        
         uiGroup4.anchoredPosition = Vector3.zero;
 
     }

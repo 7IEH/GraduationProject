@@ -20,6 +20,7 @@ TagManager:
   - LockKey
   - Luna
   - Generalstore
+  - Dunenter
   layers:
   - Default
   - TransparentFX
