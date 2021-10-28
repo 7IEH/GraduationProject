@@ -4,13 +4,14 @@ using UnityEngine;
 
 public class DunEnter : MonoBehaviour
 {
+    public Animator TutorialPanel;
     public RectTransform uiGroup1,uiGroup2,uiGroup3,uiGroup4;
     player enterplayer;
     GameManager game;
 
     public void GreenEnter()
     {
-        
+        TutorialPanel.SetBool("isShow", false);
         uiGroup1.anchoredPosition = Vector3.zero;
 
     }

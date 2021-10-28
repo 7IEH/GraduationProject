@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class player : MonoBehaviour
 {
-
-    public int HpPotion;
+    public int HpPotion=0;
     public int Gold = 10000;
 
     public int health;
@@ -17,7 +16,6 @@ public class player : MonoBehaviour
     public GameObject[] profession_num; // 클래스 선택시 사용하는 오브젝트(무기) 변수
     public Camera followCamera;
     public GameManager manager;
-    public Luna luna;
 
     public int testint = 1;
     public int bulletCount = 0;
@@ -32,6 +30,7 @@ public class player : MonoBehaviour
     public bool rDown; // Run button input
     public bool eDown; // Interaction button input
     public bool jDown; // Jump button input
+    public bool oneDown; // 1 button input
     bool isJump;
     bool isDodge;
     public bool fDown; //Attack button input
@@ -169,11 +168,22 @@ public class player : MonoBehaviour
             LunaObject = other.gameObject;//루나 채팅용
             nearObject = other.gameObject;//루나
         }
+        else if (other.tag == "Oldman")
+        {
+            nearObject = other.gameObject;
+        }
+        else if (other.tag == "Oldfemale")
+        {
+            nearObject = other.gameObject;
+        }
         else if (other.tag == "Generalstore")
         {
             nearObject = other.gameObject;
         }
-
+        else if (other.tag == "Heart")
+        {
+            nearObject = other.gameObject;
+        }
     }
 
     void OnTriggerExit(Collider other)
@@ -187,8 +197,10 @@ public class player : MonoBehaviour
         }
         else if (other.tag == "Dunenter") // 던전 입구에서 떠나는거
         {
+            Debug.Log("들어옴?1");
             if (hasKeys[0] == false)
             {
+                Debug.Log("들어옴?2");
                 DunEnter dunenter = nearObject.GetComponent<DunEnter>();
                 dunenter.GreenExit();
                 nearObject = null;
@@ -241,9 +253,21 @@ public class player : MonoBehaviour
         {
             nearObject = null;
         }
+        else if (other.tag == "Oldman")
+        {
+            nearObject = null;
+        }
+        else if (other.tag == "Oldfemale")
+        {
+            nearObject = null;
+        }
         else if (other.tag == "Generalstore")
         {
             manager.GeneralStore(false);
+            nearObject = null;
+        }
+        else if (other.tag == "Heart")
+        {
             nearObject = null;
         }
     }
@@ -264,6 +288,7 @@ public class player : MonoBehaviour
         Dodge();
         Attack();
         Reload();
+        HpHeal();
     }
     public void profession(int num)
     {
@@ -278,13 +303,7 @@ public class player : MonoBehaviour
             }
             profession_player.gameObject.SetActive(true);
             Class_Select class_select = nearObject.GetComponent<Class_Select>();
-            class_select.Exit();
             nearObject = null;
-            objData objdata = LunaObject.GetComponent<objData>();
-            objdata.id = 1002;
-            LunaObject = null;
-
-            //this.transform.position = Vector3.up * 189f;// 플레이어 선택 시 이동
         }
     }
 
@@ -294,14 +313,16 @@ public class player : MonoBehaviour
         {
             if (enter == true)
             {
-                this.transform.position = new Vector3(-68, 33, 246);
-
-
+                this.transform.position = new Vector3(217,1, -121);
+                DunEnter dunEnter = nearObject.GetComponent<DunEnter>();
+                dunEnter.GreenExit();
+                nearObject = null;
             }
             else
             {
                 DunEnter dunenter = nearObject.GetComponent<DunEnter>();
                 dunenter.GreenExit();
+                nearObject = null;
             }
         }
     }
@@ -352,6 +373,14 @@ public class player : MonoBehaviour
                 class_select.Enter(this);
             }
             else if (nearObject.tag == "Luna")
+            {
+                manager.TalkAction(nearObject);
+            }
+            else if (nearObject.tag == "Oldman")
+            {
+                manager.TalkAction(nearObject);
+            }
+            else if (nearObject.tag == "Oldfemale")
             {
                 manager.TalkAction(nearObject);
             }
@@ -420,6 +449,15 @@ public class player : MonoBehaviour
             {
                 manager.GeneralStore(true);
             }
+            else if (nearObject.tag == "Heart")
+            {
+                health += 50;
+                if (health > 100)
+                {
+                    health = 100;
+                }
+                Destroy(nearObject);
+            }
 
         }
     }
@@ -433,7 +471,21 @@ public class player : MonoBehaviour
         eDown = Input.GetButtonDown("Interaction");
         jDown = Input.GetButtonDown("Jump");
         fDown = Input.GetButtonDown("Fire1"); // button 으로 바꿀시 마우스 누르고 있으면 계속 나감
+        oneDown = Input.GetButton("Num1");
 
+    }
+
+    void HpHeal()
+    {
+        if (oneDown && health!=100 && !isDead && HpPotion!=0)
+        {
+            health += 20;
+            HpPotion--;
+            if (health > 100)
+            {
+                health = 100;
+            }
+        }
     }
 
     void Move()

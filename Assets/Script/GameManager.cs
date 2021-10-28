@@ -11,17 +11,26 @@ public class GameManager : MonoBehaviour
     public Animator TutorialPanel;
     public Text TutorialText;
     public Animator LunaTalkpanel;
+    public Animator Oldmanpanel;
+    public Animator OldFemalepanel;
     public Text LunaText;
+    public Text OldmanText;
+    public Text OldfemaleText;
     public GameObject scanObject;
     public bool isChat = false;
     bool tu_next1 = false;
     bool tu_next2 = false;
     bool tu_next3 = false;
-    bool tu_text5 = false;
+    bool tu_next4 = false;
+    bool tu_next5 = false;
     bool tu_index = false;
     public objData objdata;
 
     int gate_num;
+
+    public Text cointext;
+    public Text timetext;
+    public Text hppotiontext;
 
     GameObject LunaObject;
     public GameObject menuCam;
@@ -121,7 +130,7 @@ public class GameManager : MonoBehaviour
         {
             if (player.rDown == false)
             {
-                TutorialText.text = " 대쉬는 방향키를 누른 상태에서 SHIFT를 눌러주세요.";
+                TutorialText.text = "대쉬는 방향키를 누른 상태에서 SHIFT를 눌러주세요.";
                 tu_next2 = true;
             }
             
@@ -130,29 +139,63 @@ public class GameManager : MonoBehaviour
         {
             if (player.jDown == false)
             {
-                TutorialText.text = " 닷지는 방향키를 누른 상태에서 SPACE를 눌러주세요.";
+                TutorialText.text = "닷지는 방향키를 누른 상태에서 SPACE를 눌러주세요.";
                 tu_next3 = true;
             }
         }
         else if (index == 4)
         {
-            TutorialText.text = " 기본 조작법은 끝났습니다.\n 화살표를 따라 마을로 이동해주세요.";
+            TutorialText.text = "기본 조작법은 끝났습니다.\n마을로 이동해주세요.";
         }
 
         else if (index == 5)
         {
-            TutorialText.text = " 마을입니다.\n 마을안에 루나를 만나 직업을 고른 뒤\n 설명을 들어주세요.\n( NPC 및 상호작용 키는 E키입니다. )";
+            TutorialText.text = "마을입니다.\n 루나가 당신을 찾고있습니다.\n루나를 찾아주세요!";
             
         }
         else if (index == 6)
         {
-            if (player.fDown == false)
+            TutorialPanel.SetBool("isShow", true);
+            TutorialText.text = "철제점 아저씨가 당신을 찾고 있습니다.\n마을 오른쪽에 있는 철제점을 찾아주세요!";
+        }
+        else if (index == 7)
+        {
+            player.profession(0);
+            TutorialPanel.SetBool("isShow", true);
+            TutorialText.text = "농장 아주머니가 당신을 찾고 있습니다.\n철제점 오른쪽에 있는 농장 아주머니를 찾아주세요!";
+
+        }
+        else if (index == 8)
+        {
+            player.HpPotion = 2;
+            TutorialPanel.SetBool("isShow", true);
+            TutorialText.text = "여행에 필요한 모든 것을 챙겼습니다.\n마을 왼쪽 상단에 마을 입구를 찾아 여행을 시작해주세요!";
+        }
+        else if (index == 9)
+        {
+            TutorialPanel.SetBool("isShow", true);
+            TutorialText.text = "공격 키는 마우스 왼쪽 버튼입니다.\n앞에 있는 몬스터를 잡아주세요!";   
+        }
+        else if (index == 10)
+        {
+            tu_next4 = true;
+            if (player.health == 100)
             {
-                TutorialPanel.SetBool("isShow", true);
-                TutorialText.text = " 공격 키는 마우스 왼쪽 버튼입니다.";
-                tu_text5 = true;
+                player.health = 80;
             }
-            
+            else
+            {
+
+            }
+            TutorialPanel.SetBool("isShow", true);
+            TutorialText.text = "체력이 달았습니다.\n1번을 눌러서 체력을 회복해주세요!";
+        }
+        else if (index == 11)
+        {
+            tu_next5 = true;
+            player.health = 50;
+            TutorialPanel.SetBool("isShow", true);
+            TutorialText.text = "스테이지에 떨어진 아이템에 상호작용 버튼은 e 입니다!";
         }
 
         
@@ -162,11 +205,33 @@ public class GameManager : MonoBehaviour
         isChat = true;
         scanObject = scanObj;
         TutorialPanel.SetBool("isShow", false);
-        LunaTalkpanel.SetBool("isShow", true);
+        
         objdata = scanObject.GetComponent<objData>();
         if (objdata.id == 1000)
         {
+            LunaTalkpanel.SetBool("isShow", true);
             LunaObject = scanObject;
+        }
+        else if (objdata.id == 1001)
+        {
+            LunaTalkpanel.SetBool("isShow", true);
+            LunaObject = scanObject;
+        }
+        else if (objdata.id == 1002)
+        {
+            Oldmanpanel.SetBool("isShow", true);
+        }
+        else if (objdata.id == 1003)
+        {
+            Oldmanpanel.SetBool("isShow", true);
+        }
+        else if (objdata.id == 1004)
+        {
+            OldFemalepanel.SetBool("isShow", true);
+        }
+        else if (objdata.id == 1005)
+        {
+            OldFemalepanel.SetBool("isShow", true);
         }
         Talk(objdata.id, objdata.isNPC);
         
@@ -184,6 +249,7 @@ public class GameManager : MonoBehaviour
             {
                 objdata.id++;
                 LunaTalkpanel.SetBool("isShow", false);
+                Tutorial(6);
                 return;
             }
             else if (id == 1001)
@@ -193,16 +259,30 @@ public class GameManager : MonoBehaviour
             }
             else if (id == 1002)
             {
-                LunaTalkpanel.SetBool("isShow", false);
-                Tutorial(6);
+                objdata.id++;
+                Oldmanpanel.SetBool("isShow", false);
+                Tutorial(7);
                 return;
             }
             else if (id == 1003)
             {
-                LunaTalkpanel.SetBool("isShow", false);
+                Oldmanpanel.SetBool("isShow", false);
                 return;
             }
-            
+            else if (id == 1004)
+            {
+                objdata.id++;
+                OldFemalepanel.SetBool("isShow", false);
+                Tutorial(8);
+                return;
+            }
+            else if (id == 1005)
+            {
+                OldFemalepanel.SetBool("isShow", false);
+                return;
+            }
+     
+
         }
         if (isNpc)
         {
@@ -216,11 +296,19 @@ public class GameManager : MonoBehaviour
             }
             else if(id == 1002)
             {
-                LunaText.text = talkData;
+                OldmanText.text = talkData;
             }
             else if (id == 1003)
             {
-                LunaText.text = talkData;
+                OldmanText.text = talkData;
+            }
+            else if (id == 1004)
+            {
+                OldfemaleText.text = talkData;
+            }
+            else if (id == 1005)
+            {
+                OldfemaleText.text = talkData;
             }
         }
         else
@@ -232,7 +320,16 @@ public class GameManager : MonoBehaviour
 
     public void StageStart(int gate)
     {
-        if (gate == 1)
+        if (gate == 0)
+        {
+            gate_num = 0;
+            GameObject instantEnemy = Instantiate(enemies[0], enemyZones[0].position, enemyZones[0].rotation);
+            Enemy enemy = instantEnemy.GetComponent<Enemy>();
+            enemy.target = player.transform;
+            enemy.gamemanager = this;
+            enemyCnt++;
+        }
+        else if (gate == 1)
         {
             gate_num = 1;
             LockTrigger.SetActive(false);
@@ -358,7 +455,11 @@ public class GameManager : MonoBehaviour
 
     public void StageEnd()
     {
-        if (gate_num == 1)
+        if (gate_num == 0)
+        {
+            TutorialPanel.SetBool("isShow", false);
+        }
+        else if (gate_num == 1)
         {
             EnterLock1.SetActive(false);
             EnterLock2.SetActive(false);
@@ -418,9 +519,12 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(0);
     }
 
-  
 
-    
+
+    void Update()
+    {
+        playTime += Time.deltaTime;
+    }
 
     public void DunExitInPlayer()
     {
@@ -429,6 +533,13 @@ public class GameManager : MonoBehaviour
 
     void LateUpdate()
     {
+        int hour = (int)(playTime / 3600);
+        int min = (int)((playTime - hour * 3600) / 60);
+        int second = (int)(playTime % 60);
+
+        hppotiontext.text = "X " + player.HpPotion.ToString();
+        timetext.text = string.Format("{0:00}", hour) + ":" + string.Format("{0:00}", min) + ":" + string.Format("{0:00}", second);
+        cointext.text = player.Gold.ToString();
         playerHealthTxt.text = player.health +"/";
         if (enemyCnt<=0 && isBattle==true)
         {
@@ -449,18 +560,15 @@ public class GameManager : MonoBehaviour
             tu_next3 = false;
             Tutorial(4);
         }
-        if (player.fDown == true && tu_text5 == true)
+        if (player.oneDown == true && tu_next4 == true)
+        {  
+            tu_next4 = false;
+            TutorialPanel.SetBool("isShow", false);
+        }
+        if (player.eDown == true && tu_next5 == true)
         {
-            if (tu_index == false)
-            {
-                TutorialPanel.SetBool("isShow", false);
-                objdata = LunaObject.GetComponent<objData>();
-                objdata.id++;
-                LunaObject = null;
-                tu_index = true;
-            }
-            else
-                return;
+            tu_next5 = false;
+            TutorialPanel.SetBool("isShow", false);
         }
     }
 }

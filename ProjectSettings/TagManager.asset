@@ -21,6 +21,10 @@ TagManager:
   - Luna
   - Generalstore
   - Dunenter
+  - Oldman
+  - Oldfemale
+  - Heart
+  - Trigger
   layers:
   - Default
   - TransparentFX
