@@ -32,6 +32,7 @@ public class GameManager : MonoBehaviour
     public Text cointext;
     public Text timetext;
     public Text hppotiontext;
+    public Text Gameove_time;
 
     public Image greenkey_img;
     public Image bluekey_img;
@@ -40,7 +41,8 @@ public class GameManager : MonoBehaviour
     public Image whitekey1_img;
     public Image whitekey2_img;
     public Image whitekey3_img;
-
+    public Image hammerimg;
+    public Text hammertxt;
 
 
 
@@ -94,6 +96,9 @@ public class GameManager : MonoBehaviour
     public List<int> enemyList;
 
     public bool LockKey;//스테이지 잠금 해제 조건
+
+    public RectTransform PlayerHealthGroup;
+    public RectTransform PlayerHealthBar;
 
     void Awake()
     {
@@ -175,6 +180,8 @@ public class GameManager : MonoBehaviour
         else if (index == 7)
         {
             player.profession(0);
+            hammerimg.gameObject.SetActive(true);
+            hammertxt.gameObject.SetActive(true);
             TutorialPanel.SetBool("isShow", true);
             TutorialText.text = "농장 아주머니가 당신을 찾고 있습니다.\n철제점 오른쪽에 있는 농장 아주머니를 찾아주세요!";
 
@@ -355,6 +362,7 @@ public class GameManager : MonoBehaviour
             Enemy enemy = instantEnemy.GetComponent<Enemy>();
             enemy.target = player.transform;
             enemy.gamemanager = this;
+            isBattle = true;
             enemyCnt++;
         }
         else if (gate == 1)
@@ -537,6 +545,10 @@ public class GameManager : MonoBehaviour
 
     public void GameOver()
     {
+        int hour = (int)(playTime / 3600);
+        int min = (int)((playTime - hour * 3600) / 60);
+        int second = (int)(playTime % 60);
+        Gameove_time.text = string.Format("{0:00}", hour) + ":" + string.Format("{0:00}", min) + ":" + string.Format("{0:00}", second);
         GamePanel.SetActive(false);
         OverPanel.SetActive(true);
     }
@@ -569,6 +581,7 @@ public class GameManager : MonoBehaviour
 
     void LateUpdate()
     {
+        PlayerHealthBar.localScale = new Vector3((float)player.health / 100, 1, 1);
         int hour = (int)(playTime / 3600);
         int min = (int)((playTime - hour * 3600) / 60);
         int second = (int)(playTime % 60);

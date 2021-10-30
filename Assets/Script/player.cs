@@ -313,7 +313,7 @@ public class player : MonoBehaviour
         {
             if (enter == true)
             {
-                this.transform.position = new Vector3(217,1, -121);
+                this.transform.position = new Vector3(172, 1, -72.97f);
                 DunEnter dunEnter = nearObject.GetComponent<DunEnter>();
                 dunEnter.GreenExit();
                 nearObject = null;
