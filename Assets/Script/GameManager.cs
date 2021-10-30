@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     public Animator GeneralPanel;
+    public Text generalText;
     public TalkManager talkManager;
     public Animator TutorialPanel;
     public Text TutorialText;
@@ -31,6 +32,17 @@ public class GameManager : MonoBehaviour
     public Text cointext;
     public Text timetext;
     public Text hppotiontext;
+
+    public Image greenkey_img;
+    public Image bluekey_img;
+    public Image redkey_img;
+    public Image blackkey_img;
+    public Image whitekey1_img;
+    public Image whitekey2_img;
+    public Image whitekey3_img;
+
+
+
 
     GameObject LunaObject;
     public GameObject menuCam;
@@ -108,6 +120,8 @@ public class GameManager : MonoBehaviour
         if (show == true)
         {
             GeneralPanel.SetBool("isShow", show);
+            generalText.text = "어서오렴!";
+            
         }
         else if(show == false)
         {
@@ -235,6 +249,20 @@ public class GameManager : MonoBehaviour
         }
         Talk(objdata.id, objdata.isNPC);
         
+    }
+
+    public void GeneralStorebuy()
+    {
+        if (player.Gold < 1000)
+        {
+            generalText.text = "음; 돈이 좀 모자란거같은데?";
+        }
+        else
+        {
+            player.Gold -= 1000;
+            player.HpPotion += 1;
+            generalText.text = "언제나 고맙구나~";
+        }
     }
 
     void Talk(int id,bool isNpc)
@@ -458,6 +486,7 @@ public class GameManager : MonoBehaviour
         if (gate_num == 0)
         {
             TutorialPanel.SetBool("isShow", false);
+            isBattle = false;
         }
         else if (gate_num == 1)
         {
@@ -510,8 +539,15 @@ public class GameManager : MonoBehaviour
     {
         GamePanel.SetActive(false);
         OverPanel.SetActive(true);
+    }
 
-        
+    public void Gamequit()
+    {
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+        Application.Quit();
+#endif
     }
 
     public void Restart()
@@ -569,6 +605,22 @@ public class GameManager : MonoBehaviour
         {
             tu_next5 = false;
             TutorialPanel.SetBool("isShow", false);
+        }
+
+        if (player.hasKeys[0] == true)
+        {
+            whitekey1_img.gameObject.SetActive(false);
+            greenkey_img.gameObject.SetActive(true);
+        }
+        else if (player.hasKeys[1] == true)
+        {
+            whitekey2_img.gameObject.SetActive(false);
+            bluekey_img.gameObject.SetActive(true);
+        }
+        else if (player.hasKeys[2] == true)
+        {
+            whitekey3_img.gameObject.SetActive(false);
+            redkey_img.gameObject.SetActive(true);
         }
     }
 }
