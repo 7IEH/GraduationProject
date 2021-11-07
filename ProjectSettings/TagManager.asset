@@ -25,6 +25,7 @@ TagManager:
   - Oldfemale
   - Heart
   - Trigger
+  - Weapon
   layers:
   - Default
   - TransparentFX

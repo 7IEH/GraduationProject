@@ -43,6 +43,8 @@ public class GameManager : MonoBehaviour
     public Image whitekey3_img;
     public Image hammerimg;
     public Text hammertxt;
+    public Image Gunimg;
+    public Text Guntxt;
 
 
 
@@ -55,6 +57,7 @@ public class GameManager : MonoBehaviour
     public GameObject LockTrigger4;
     public GameObject LockTrigger5;
     public GameObject LockTrigger6;
+    public GameObject LockTrigger7;
     public GameObject EnterLock1;
     public GameObject EnterLock2;
     public GameObject EnterLock3;
@@ -68,7 +71,9 @@ public class GameManager : MonoBehaviour
     public GameObject EnterLock11;
     public GameObject EnterLock12;
     public GameObject EnterLock13;
+    public GameObject EnterLock14;
     public GameObject returnbase;
+    public GameObject nextstage;
 
     public GameObject greenkey;
     public GameObject bluekey;
@@ -89,6 +94,7 @@ public class GameManager : MonoBehaviour
     public GameObject menuPanel;
     public GameObject GamePanel;
     public GameObject OverPanel;
+    public GameObject ClearPanel;
     public Text playerHealthTxt;
 
     public Transform[] enemyZones;
@@ -99,6 +105,18 @@ public class GameManager : MonoBehaviour
 
     public RectTransform PlayerHealthGroup;
     public RectTransform PlayerHealthBar;
+    public RectTransform BossHealthBar;
+
+    public GameObject BossUI1;
+    public GameObject BossUI2;
+    public GameObject BossUI3;
+
+    public GameObject Gun1;
+
+    public Text cleartext;
+
+    Enemy curboss;
+   
 
     void Awake()
     {
@@ -117,7 +135,7 @@ public class GameManager : MonoBehaviour
 
         player.gameObject.SetActive(true);
         Tutorial(1);
-        
+
     }
 
     public void GeneralStore(bool show)
@@ -179,7 +197,9 @@ public class GameManager : MonoBehaviour
         }
         else if (index == 7)
         {
-            player.profession(0);
+            player.equip = 0;
+            player.profession(player.equip);
+            player.hasWeapons[player.equip] = true;
             hammerimg.gameObject.SetActive(true);
             hammertxt.gameObject.SetActive(true);
             TutorialPanel.SetBool("isShow", true);
@@ -357,6 +377,7 @@ public class GameManager : MonoBehaviour
     {
         if (gate == 0)
         {
+            //tutorial
             gate_num = 0;
             GameObject instantEnemy = Instantiate(enemies[0], enemyZones[0].position, enemyZones[0].rotation);
             Enemy enemy = instantEnemy.GetComponent<Enemy>();
@@ -367,12 +388,13 @@ public class GameManager : MonoBehaviour
         }
         else if (gate == 1)
         {
+            //green room1
             gate_num = 1;
             LockTrigger.SetActive(false);
             EnterLock1.SetActive(true);
             EnterLock2.SetActive(true);
             Debug.Log("진입");
-            for (int MobCount = 0; MobCount < 5; MobCount++)
+            for (int MobCount = 1; MobCount < 5; MobCount++)
             {
 
                 GameObject instantEnemy = Instantiate(enemies[0], enemyZones[MobCount].position, enemyZones[MobCount].rotation);
@@ -385,13 +407,14 @@ public class GameManager : MonoBehaviour
         }
         else if (gate == 2)
         {
+            //green room2
             gate_num = 2;
             LockTrigger2.SetActive(false);
             EnterLock3.SetActive(true);
             EnterLock4.SetActive(true);
             EnterLock5.SetActive(true);
             Debug.Log("진입");
-            for (int MobCount = 6; MobCount < 11; MobCount++)
+            for (int MobCount = 5; MobCount < 10; MobCount++)
             {
 
                 GameObject instantEnemy = Instantiate(enemies[0], enemyZones[MobCount].position, enemyZones[MobCount].rotation);
@@ -404,12 +427,13 @@ public class GameManager : MonoBehaviour
         }
         else if (gate == 3)
         {
+            //green room3
             gate_num = 3;
             LockTrigger3.SetActive(false);
             EnterLock6.SetActive(true);
             EnterLock7.SetActive(true);
             Debug.Log("진입");
-            for (int MobCount = 11; MobCount < 17; MobCount++)
+            for (int MobCount = 10; MobCount < 14; MobCount++)
             {
 
                 GameObject instantEnemy = Instantiate(enemies[0], enemyZones[MobCount].position, enemyZones[MobCount].rotation);
@@ -422,12 +446,13 @@ public class GameManager : MonoBehaviour
         }
         else if (gate == 4)
         {
+            //green room4
             gate_num = 4;
             LockTrigger4.SetActive(false);
             EnterLock8.SetActive(true);
             EnterLock9.SetActive(true);
             Debug.Log("진입");
-            for (int MobCount = 17; MobCount < 21; MobCount++)
+            for (int MobCount = 14; MobCount < 20; MobCount++)
             {
 
                 GameObject instantEnemy = Instantiate(enemies[0], enemyZones[MobCount].position, enemyZones[MobCount].rotation);
@@ -441,12 +466,13 @@ public class GameManager : MonoBehaviour
         }
         else if (gate == 5)
         {
+            //green room5
             gate_num = 5;
             LockTrigger5.SetActive(false);
             EnterLock10.SetActive(true);
             EnterLock11.SetActive(true);
             Debug.Log("진입");
-            for (int MobCount = 21; MobCount < 26; MobCount++)
+            for (int MobCount = 20; MobCount < 25; MobCount++)
             {
 
                 GameObject instantEnemy = Instantiate(enemies[0], enemyZones[MobCount].position, enemyZones[MobCount].rotation);
@@ -459,12 +485,13 @@ public class GameManager : MonoBehaviour
         }
         else if (gate == 6)
         {
+            //green room6
             gate_num = 6;
             LockTrigger6.SetActive(false);
             EnterLock12.SetActive(true);
             EnterLock13.SetActive(true);
             Debug.Log("진입");
-            for (int MobCount = 26; MobCount < 30; MobCount++)
+            for (int MobCount = 25; MobCount < 30; MobCount++)
             {
 
                 GameObject instantEnemy = Instantiate(enemies[0], enemyZones[MobCount].position, enemyZones[MobCount].rotation);
@@ -479,14 +506,37 @@ public class GameManager : MonoBehaviour
 
     public void Boss()
     {
+        
         gate_num = 7;
         isBattle = true;
-        GameObject instantEnemy = Instantiate(enemies[3], enemyZones[5].position, enemyZones[5].rotation);
+        LockTrigger7.SetActive(true);
+        EnterLock14.SetActive(true);
+        GameObject instantEnemy = Instantiate(enemies[4], enemyZones[30].position, enemyZones[30].rotation);
         Enemy enemy = instantEnemy.GetComponent<Enemy>();
         enemy.target = player.transform;
         enemy.gamemanager = this;
+        curboss = enemy;
         enemyCnt++;
+        boss = instantEnemy.GetComponent<Boss>();
+        BossUI1.SetActive(true);
         
+    }
+
+    public void Final_Boss()
+    {
+
+        gate_num = 8;
+        isBattle = true;
+        LockTrigger7.SetActive(true);
+        EnterLock14.SetActive(true);
+        GameObject instantEnemy = Instantiate(enemies[3], enemyZones[31].position, enemyZones[31].rotation);
+        Enemy enemy = instantEnemy.GetComponent<Enemy>();
+        enemy.target = player.transform;
+        enemy.gamemanager = this;
+        curboss = enemy;
+        enemyCnt++;
+        BossUI1.SetActive(true);
+
     }
 
     public void StageEnd()
@@ -501,6 +551,7 @@ public class GameManager : MonoBehaviour
             EnterLock1.SetActive(false);
             EnterLock2.SetActive(false);
             isBattle = false;
+            player.Gold += 500;
         }
         else if (gate_num == 2)
         {
@@ -508,47 +559,69 @@ public class GameManager : MonoBehaviour
             EnterLock4.SetActive(false);
             EnterLock5.SetActive(false);
             isBattle = false;
+            player.Gold += 500;
         }
         else if (gate_num == 3)
         {
             EnterLock6.SetActive(false);
             EnterLock7.SetActive(false);
             isBattle = false;
+            player.Gold += 500;
         }
         else if (gate_num == 4)
         {
             EnterLock8.SetActive(false);
             EnterLock9.SetActive(false);
             isBattle = false;
-
+            player.Gold += 500;
         }
         else if (gate_num == 5)
         {
             EnterLock10.SetActive(false);
             EnterLock11.SetActive(false);
             isBattle = false;
+            player.Gold += 500;
         }
         else if (gate_num == 6)
         {
             EnterLock12.SetActive(false);
             EnterLock13.SetActive(false);
             isBattle = false;
+            player.Gold += 500;
         }
         else if (gate_num == 7)
         {
+            cleartext.gameObject.SetActive(true);
+            Invoke("cleartextsetactive",5);
+            isBattle = false;
             greenkey.SetActive(true);
             returnbase.SetActive(true);
+            nextstage.SetActive(true);
+            Gun1.SetActive(true);
             isBattle = false;
+            player.Gold += 1000;
         }
+        else if (gate_num == 8)
+        {
+            int hour = (int)(playTime / 3600);
+            int min = (int)((playTime - hour * 3600) / 60);
+            int second = (int)(playTime % 60);
+            GamePanel.SetActive(false);
+            ClearPanel.SetActive(true);
+            Gameove_time.text = string.Format("{0:00}", hour) + ":" + string.Format("{0:00}", min) + ":" + string.Format("{0:00}", second);
+            
+        }
+    }
+
+    public void cleartextsetactive()
+    {
+        cleartext.gameObject.SetActive(false);
     }
 
 
     public void GameOver()
     {
-        int hour = (int)(playTime / 3600);
-        int min = (int)((playTime - hour * 3600) / 60);
-        int second = (int)(playTime % 60);
-        Gameove_time.text = string.Format("{0:00}", hour) + ":" + string.Format("{0:00}", min) + ":" + string.Format("{0:00}", second);
+        
         GamePanel.SetActive(false);
         OverPanel.SetActive(true);
     }
@@ -581,10 +654,38 @@ public class GameManager : MonoBehaviour
 
     void LateUpdate()
     {
+        if (curboss != null)
+        {
+            BossHealthBar.localScale = new Vector3((float)curboss.curHealth / curboss.maxHealth, 1, 1);
+            if (curboss.curHealth <= 0)
+            {
+                BossUI1.SetActive(false);
+                cleartext.gameObject.SetActive(true);
+                curboss = null;
+
+            }
+        }
         PlayerHealthBar.localScale = new Vector3((float)player.health / 100, 1, 1);
+        
         int hour = (int)(playTime / 3600);
         int min = (int)((playTime - hour * 3600) / 60);
         int second = (int)(playTime % 60);
+
+
+        if (player.equip == 0)
+        {
+            Gunimg.gameObject.SetActive(false);
+            Guntxt.gameObject.SetActive(false);
+            hammerimg.gameObject.SetActive(true);
+            hammertxt.gameObject.SetActive(true);
+        }
+        else if (player.equip == 1)
+        {
+            hammerimg.gameObject.SetActive(false);
+            hammertxt.gameObject.SetActive(false);
+            Gunimg.gameObject.SetActive(true);
+            Guntxt.gameObject.SetActive(true);
+        }
 
         hppotiontext.text = "X " + player.HpPotion.ToString();
         timetext.text = string.Format("{0:00}", hour) + ":" + string.Format("{0:00}", min) + ":" + string.Format("{0:00}", second);

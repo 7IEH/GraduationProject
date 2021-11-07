@@ -68,6 +68,21 @@ public class follow : MonoBehaviour
             {
 
             }
+            else if (hit.collider.gameObject.tag == "EnemyBullet")
+            {
+
+            }
+            else if (hit.collider.gameObject.tag == "Weapon") {
+            }
+            else if (hit.collider.gameObject.tag == "GreenKey")
+            {
+            }
+            else if (hit.collider.gameObject.tag == "Return")
+            {
+            }
+            else if (hit.collider.gameObject.tag == "Dunenter")
+            {
+            }
             else
             {
                 for (int i = 0; i < 5; i++)

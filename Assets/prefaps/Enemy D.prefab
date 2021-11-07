@@ -102,8 +102,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyType: 3
-  maxHealth: 200
-  curHealth: 200
+  maxHealth: 1000
+  curHealth: 1000
   target: {fileID: 0}
   isChase: 0
   isAttack: 0

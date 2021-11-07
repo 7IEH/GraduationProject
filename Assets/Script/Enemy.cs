@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI; // 네비게이션 AI 사용시 도착 함수
 
+
 public class Enemy : MonoBehaviour
 {
     public enum Type {A,B,C,D};
@@ -25,6 +26,8 @@ public class Enemy : MonoBehaviour
     public Animator anim;
     public GameManager gamemanager;
 
+    public 
+
     void Awake()
     {
         rigid = GetComponent<Rigidbody>();
@@ -33,17 +36,20 @@ public class Enemy : MonoBehaviour
         nav = GetComponent<NavMeshAgent>();
         anim = GetComponentInChildren<Animator>();
 
-        responPosition = this.transform.position;
-
-        
+        Invoke("ChaseStart", 2);
     }
 
+    void ChaseStart()
+    {
+        isChase = true;
+        anim.SetBool("isWalk", true);
+    }
    
 
     void Update()
     {
-        
-        if (Vector3.Distance(target.position, transform.position) > 5f&& nav.enabled&&enemyType!=Type.D)
+
+        /*if (Vector3.Distance(target.position, transform.position) > 5f&& nav.enabled&&enemyType!=Type.D)
         {
             isChase = false;
             nav.isStopped = false;
@@ -56,10 +62,15 @@ public class Enemy : MonoBehaviour
             anim.SetBool("isWalk", true);
             nav.SetDestination(target.position); //setDestionation():도착할 목표 위치 지정 함수
             nav.isStopped = false;  
+        }*/
+        if (nav.enabled)
+        {
+            nav.SetDestination(target.position);
+            nav.isStopped = !isChase;
         }
     }
 
-    void returnBase()
+    /*void returnBase()
     {
         nav.isStopped = false;
         anim.SetBool("isWalk", true);
@@ -95,7 +106,7 @@ public class Enemy : MonoBehaviour
         }
         
 
-    }
+    }*/
 
     void FixedUpdate()
     {
@@ -127,6 +138,7 @@ public class Enemy : MonoBehaviour
             }
 
             RaycastHit[] rayHits = Physics.SphereCastAll(transform.position, targetRadius, transform.forward, targetRange, LayerMask.GetMask("Player"));
+            
 
             if (rayHits.Length > 0 && !isAttack)
             {
@@ -238,6 +250,11 @@ public class Enemy : MonoBehaviour
             reactVec += Vector3.up;
             rigid.AddForce(reactVec * 5, ForceMode.Impulse);
             //
+            if (enemyType == Type.D)
+            {
+
+            }
+
             if (enemyType != Type.D)
                 Destroy(gameObject, 4);
 

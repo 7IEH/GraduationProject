@@ -6,6 +6,8 @@ public class player : MonoBehaviour
 {
     public int HpPotion=0;
     public int Gold = 10000;
+    public GameObject[] weapons;
+    public bool[] hasWeapons;
 
     public int health;
     public float speed;
@@ -26,11 +28,12 @@ public class player : MonoBehaviour
 
     float fireDelay; //공격 딜레이
 
-    bool pro_player = false;
+    public bool pro_player = false;
     public bool rDown; // Run button input
     public bool eDown; // Interaction button input
     public bool jDown; // Jump button input
     public bool oneDown; // 1 button input
+    public bool zDown; // swap input
     bool isJump;
     bool isDodge;
     public bool fDown; //Attack button input
@@ -50,7 +53,7 @@ public class player : MonoBehaviour
     GameObject LunaObject;
     Class_Behavior profession_player;// 플레이어가 가진 직업
     MeshRenderer[] meshs;
-
+    public int equip=-1;
 
     void FreezeRotation()
     {
@@ -184,6 +187,10 @@ public class player : MonoBehaviour
         {
             nearObject = other.gameObject;
         }
+        else if (other.tag == "Weapon")
+        {
+            nearObject = other.gameObject;
+        }
     }
 
     void OnTriggerExit(Collider other)
@@ -197,10 +204,10 @@ public class player : MonoBehaviour
         }
         else if (other.tag == "Dunenter") // 던전 입구에서 떠나는거
         {
-            Debug.Log("들어옴?1");
+           
             if (hasKeys[0] == false)
             {
-                Debug.Log("들어옴?2");
+                Debug.Log(nearObject);
                 DunEnter dunenter = nearObject.GetComponent<DunEnter>();
                 dunenter.GreenExit();
                 nearObject = null;
@@ -270,6 +277,10 @@ public class player : MonoBehaviour
         {
             nearObject = null;
         }
+        else if (other.tag == "Weapon")
+        {
+            nearObject = null; 
+        }
     }
 
     void Awake()
@@ -277,6 +288,7 @@ public class player : MonoBehaviour
         rigidbody = GetComponent<Rigidbody>();
         anim = GetComponentInChildren<Animator>();
         meshs = GetComponentsInChildren<MeshRenderer>();
+        
     }
 
     void Update()
@@ -289,20 +301,61 @@ public class player : MonoBehaviour
         Attack();
         Reload();
         HpHeal();
+        Swap();
+    }
+
+    public void Swap()
+    {
+        if (zDown)
+        {
+            Debug.Log("들어옴");
+            if (hasWeapons[0] == false && hasWeapons[1] == false)
+            {
+
+            }
+            else if (hasWeapons[0] == true && hasWeapons[1] == false)
+            {
+            }
+            else if (hasWeapons[0] == true && hasWeapons[1] == true)
+            {
+               
+                if (equip == 0)
+                {
+                    
+                    profession(1);
+                    
+                }
+                else if (equip == 1)
+                {
+                    profession(0);
+                    
+                }
+            }
+        }
     }
     public void profession(int num)
     {
-        if (!isJump && !isDodge && moveVec == Vector3.zero && !pro_player && !isDead)
+        if (!isJump && !isDodge && moveVec == Vector3.zero && !isDead)
         {
-            pro_player = true;
-            profession_player = profession_num[num].GetComponent<Class_Behavior>();
+            
             if (profession_player != null) //setactive 사용시 앞에 gameobject +
             {
-                //이미 정해진 직업이 있을경우
-                //또는 직업에 맞지 않는 무기 장착시 사용
+                
+                profession_player.gameObject.SetActive(false);
+                profession_player = null;
+                if (num == 1)
+                {
+                    equip = 1;
+                }
+                else if (num == 0)
+                {
+                    equip = 0;
+                }
             }
+            pro_player = true;
+            profession_player = profession_num[num].GetComponent<Class_Behavior>();
             profession_player.gameObject.SetActive(true);
-            Class_Select class_select = nearObject.GetComponent<Class_Select>();
+            
             nearObject = null;
         }
     }
@@ -316,13 +369,11 @@ public class player : MonoBehaviour
                 this.transform.position = new Vector3(172, 1, -72.97f);
                 DunEnter dunEnter = nearObject.GetComponent<DunEnter>();
                 dunEnter.GreenExit();
-                nearObject = null;
             }
             else
             {
                 DunEnter dunenter = nearObject.GetComponent<DunEnter>();
                 dunenter.GreenExit();
-                nearObject = null;
             }
         }
     }
@@ -345,12 +396,49 @@ public class player : MonoBehaviour
         }
     }
 
+    public void PlayerInRedDungeon(bool enter)
+    {
+        if (!isJump && !isDodge && moveVec == Vector3.zero)
+        {
+            if (enter == true)
+            {
+                this.transform.position = new Vector3(315.97f, 1f, -343.47f);//블루던전 위치 바꾸기
+                manager.Final_Boss();
+
+
+            }
+            else
+            {
+                DunEnter dunenter = nearObject.GetComponent<DunEnter>();
+                dunenter.RedExit();
+            }
+        }
+    }
+
+    public void PlayerInWhiteDungeon(bool enter)
+    {
+        if (!isJump && !isDodge && moveVec == Vector3.zero)
+        {
+            if (enter == true)
+            {
+                this.transform.position = new Vector3(675.3f, 1f, -412.06f);//블루던전 위치 바꾸기
+
+
+            }
+            else
+            {
+                DunEnter dunenter = nearObject.GetComponent<DunEnter>();
+                dunenter.FinalExit();
+            }
+        }
+    }
+
 
     public void PlayerInGreenBoss()
     {
         if (!isJump && !isDodge && moveVec == Vector3.zero)
         {
-            this.transform.position = new Vector3(428.16f, 191.7046f, 264.57f);
+            this.transform.position = new Vector3(169.66f, 191.7046f, 264.57f);
             manager.Boss();
         }
 
@@ -359,7 +447,7 @@ public class player : MonoBehaviour
     public void PlayerInBase()
     {
         if (!isJump && !isDodge && moveVec == Vector3.zero)
-            this.transform.position = new Vector3(175.24f, 1.27f, 69.7f);
+            this.transform.position = new Vector3(112.67f, 8.81f, 210.21f);
     }
 
 
@@ -458,6 +546,15 @@ public class player : MonoBehaviour
                 }
                 Destroy(nearObject);
             }
+            else if (nearObject.tag == "Weapon")
+            {
+
+                Item item = nearObject.GetComponent<Item>();
+                int weaponIndex = item.value;
+                hasWeapons[weaponIndex] = true;
+
+                Destroy(nearObject);
+            }
 
         }
     }
@@ -472,7 +569,7 @@ public class player : MonoBehaviour
         jDown = Input.GetButtonDown("Jump");
         fDown = Input.GetButtonDown("Fire1"); // button 으로 바꿀시 마우스 누르고 있으면 계속 나감
         oneDown = Input.GetButton("Num1");
-
+        zDown = Input.GetButtonDown("Swap");
     }
 
     void HpHeal()
@@ -555,7 +652,7 @@ public class player : MonoBehaviour
 
     void Attack()
     {
-        if (pro_player == false)
+        if (equip == -1)
             return;
 
         fireDelay += Time.deltaTime;
@@ -564,7 +661,7 @@ public class player : MonoBehaviour
 
         if (fDown && isFireReady && !isDodge && !isReload && !isDead)
         {
-
+            Debug.Log("들어옴4");
             profession_player.Use();
             anim.SetTrigger(profession_player.type == Class_Behavior.Type.Worrior ? "doSwing" : "doShot");
             fireDelay = 0;

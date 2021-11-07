@@ -76,7 +76,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9149f875e8d3ac4391851516e0590c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 0
+  damage: 10
   isMelee: 1
   isRock: 0
 --- !u!1 &5318863611809546057
@@ -108,7 +108,7 @@ Transform:
   m_GameObject: {fileID: 5318863611809546057}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_Children:
   - {fileID: 711190982479731105}
   - {fileID: 3940537050680685764}
@@ -187,6 +187,7 @@ MonoBehaviour:
   isDead: 0
   meleeArea: {fileID: 3940537050680685754}
   bullet: {fileID: 0}
+  responPosition: {x: 0, y: 0, z: 0}
   rigid: {fileID: 0}
   boxCollider: {fileID: 0}
   meshs: []
