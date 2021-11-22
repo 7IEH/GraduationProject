@@ -83,6 +83,9 @@ public class follow : MonoBehaviour
             else if (hit.collider.gameObject.tag == "Dunenter")
             {
             }
+            else if (hit.collider.gameObject.tag == "BlueKey")
+            {
+            }
             else
             {
                 for (int i = 0; i < 5; i++)

@@ -288,7 +288,9 @@ public class player : MonoBehaviour
         rigidbody = GetComponent<Rigidbody>();
         anim = GetComponentInChildren<Animator>();
         meshs = GetComponentsInChildren<MeshRenderer>();
-        
+        equip = 0;
+        profession(0);
+        hasWeapons[1] = true;
     }
 
     void Update()
@@ -384,9 +386,10 @@ public class player : MonoBehaviour
         {
             if (enter == true)
             {
-                this.transform.position = new Vector3(428.414f, 295.849f, 264.4953f);//블루던전 위치 바꾸기
-
-
+                this.transform.position = new Vector3(313.18f, 2.2f, -180.98f);
+                DunEnter dunEnter = nearObject.GetComponent<DunEnter>();
+                dunEnter.BlueExit();
+                manager.BlueStart();
             }
             else
             {

@@ -74,6 +74,8 @@ public class GameManager : MonoBehaviour
     public GameObject EnterLock14;
     public GameObject returnbase;
     public GameObject nextstage;
+    public GameObject blueReturnBase;
+    public GameObject blueNextStage;
 
     public GameObject greenkey;
     public GameObject bluekey;
@@ -85,10 +87,12 @@ public class GameManager : MonoBehaviour
     public int stage;
     public float playTime;
     public bool isBattle;
+    public bool isBlue;
     public int enemyCntA;
     public int enemyCntB;
     public int enemyCntC;
     public int enemyCnt;
+    public int blueStageCnt; /* 블루 던전 스테이지 카운트 */
     public int talkIndex;
 
     public GameObject menuPanel;
@@ -100,12 +104,14 @@ public class GameManager : MonoBehaviour
     public Transform[] enemyZones;
     public GameObject[] enemies;
     public List<int> enemyList;
+    public Transform[] blueEnemyZones; /* 블루 던전 스폰 장소 */
 
     public bool LockKey;//스테이지 잠금 해제 조건
 
     public RectTransform PlayerHealthGroup;
     public RectTransform PlayerHealthBar;
     public RectTransform BossHealthBar;
+    public RectTransform BlueBossHealthBar; /* 블루 던전 보스 체력 */
 
     public GameObject BossUI1;
     public GameObject BossUI2;
@@ -116,6 +122,7 @@ public class GameManager : MonoBehaviour
     public Text cleartext;
 
     Enemy curboss;
+    Enemy blueBoss; /* 블루 던전 보스 개체 */
    
 
     void Awake()
@@ -128,14 +135,14 @@ public class GameManager : MonoBehaviour
 
         menuCam.SetActive(false);
         gameCam.SetActive(true);
+        
 
         menuPanel.SetActive(false);
         GamePanel.SetActive(true);
         TutorialPanel.SetBool("isShow", true);
-
+        
         player.gameObject.SetActive(true);
         Tutorial(1);
-
     }
 
     public void GeneralStore(bool show)
@@ -503,6 +510,67 @@ public class GameManager : MonoBehaviour
             isBattle = true;
         }
     }
+    /* 블루 던전 스타트 */
+    public void BlueStart()
+    {
+        StartCoroutine(BlueRespawn());
+    }
+
+    /* 블루 던전 스폰문 */
+    IEnumerator BlueRespawn()
+    {
+        for (int stageCount = 0; stageCount < 5; stageCount++) /* 총 잡몹 스테이지는 5스테이지 */
+        {
+            for (int count = 0; count < 5; count++) /* 일반, 돌진형 중 골라서 5마리 저장 */
+            {
+                int spawn = Random.Range(0, 2);
+                enemyList.Add(spawn);
+                switch(spawn)
+                {
+                    case 0:
+                        enemyCntA++;
+                        break;
+                    case 1:
+                        enemyCntB++;
+                        break;
+                }
+            }
+
+            while (enemyList.Count > 0) /* 5마리가 지연 스폰 */
+            {
+                int randomSpawn = Random.Range(0, 8);
+                GameObject instantEnemy = Instantiate(enemies[enemyList[0]], blueEnemyZones[randomSpawn].position, blueEnemyZones[randomSpawn].rotation);
+                Enemy enemy = instantEnemy.GetComponent<Enemy>();
+                enemy.target = player.transform;
+                enemy.gamemanager = this;
+                enemyList.RemoveAt(0);
+                yield return new WaitForSeconds(1f);
+            }
+
+            while(enemyCntA + enemyCntB > 0) /* 스테이지 내 모든 몬스터 잡을 경우 새로운 웨이브 시작 */
+            {
+                yield return new WaitForSeconds(3f);
+
+                yield return null;
+            }
+
+            blueStageCnt++;
+
+            if (blueStageCnt == 5)/* 4 스테이지 시작 시 보스 소환 */
+                BlueBoss();
+        }
+    }
+
+    public void BlueBoss() /* 블루 던전 보스 스폰 */
+    {
+        GameObject instantEnemy = Instantiate(enemies[5], blueEnemyZones[8].position, blueEnemyZones[8].rotation);
+        Enemy enemy = instantEnemy.GetComponent<Enemy>();
+        enemy.target = player.transform;
+        enemy.gamemanager = this;
+        blueBoss = enemy;
+        boss = instantEnemy.GetComponent<Boss>();
+        BossUI2.SetActive(true);
+    }
 
     public void Boss()
     {
@@ -665,6 +733,26 @@ public class GameManager : MonoBehaviour
 
             }
         }
+        if (blueBoss != null) /* 블루 보스 제거 시 UI 제거 */
+        {
+            BlueBossHealthBar.localScale = new Vector3((float)blueBoss.curHealth / blueBoss.maxHealth, 1, 1);
+            if(blueBoss.curHealth <= 0)
+            {
+                isBlue = true;
+                BossUI2.SetActive(false);
+                cleartext.gameObject.SetActive(true);
+                blueBoss = null;
+                Invoke("cleartextsetactive", 5);
+            }
+        }
+        if(isBlue)
+        {
+            isBlue = false;
+            player.Gold += 3000;
+            bluekey.SetActive(true);
+            blueNextStage.SetActive(true);
+            blueReturnBase.SetActive(true);
+        }
         PlayerHealthBar.localScale = new Vector3((float)player.health / 100, 1, 1);
         
         int hour = (int)(playTime / 3600);
@@ -726,12 +814,12 @@ public class GameManager : MonoBehaviour
             whitekey1_img.gameObject.SetActive(false);
             greenkey_img.gameObject.SetActive(true);
         }
-        else if (player.hasKeys[1] == true)
+        if (player.hasKeys[1] == true)
         {
             whitekey2_img.gameObject.SetActive(false);
             bluekey_img.gameObject.SetActive(true);
         }
-        else if (player.hasKeys[2] == true)
+        if (player.hasKeys[2] == true)
         {
             whitekey3_img.gameObject.SetActive(false);
             redkey_img.gameObject.SetActive(true);

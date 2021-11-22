@@ -245,6 +245,16 @@ public class Enemy : MonoBehaviour
             anim.SetTrigger("doDie");
             gamemanager.enemyCnt--;
 
+            switch (enemyType) /* 블루 던전 카운트용 */
+            {
+                case Type.A:
+                    gamemanager.enemyCntA--;
+                    break;
+                case Type.B:
+                    gamemanager.enemyCntB--;
+                    break;
+            }
+
             //사후 이동 로직
             reactVec = reactVec.normalized;
             reactVec += Vector3.up;

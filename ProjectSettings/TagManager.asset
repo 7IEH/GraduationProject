@@ -26,6 +26,7 @@ TagManager:
   - Heart
   - Trigger
   - Weapon
+  - BlueKey
   layers:
   - Default
   - TransparentFX
