@@ -1,2 +1,2 @@
 # GraduateProject
-## Teamates
+## Teammates
