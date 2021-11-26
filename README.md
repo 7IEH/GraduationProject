@@ -9,5 +9,6 @@
 
 |Kinds         |Using |
 |-------------|--------------|
-|**'Language'**   |C#           |
-|**'Gaame Engine'**|Unity    |
+|**`Language`**   |C#       |
+|**`Game Engine`**|Unity    |
+|**`Assets`**|[**QuarterView 3D Action assets pack**](https://assetstore.unity.com/packages/3d/characters/quarter-view-3d-action-assets-pack-188720)|
