@@ -26,3 +26,11 @@ Unity engine 기반 quarterview 로그라이크형식 Game Development project
 ![image](https://user-images.githubusercontent.com/80614927/143542049-d86228b4-4819-42c4-a130-e42c1822783c.png)   
 
 <br/>
+
+## InGame
+* [**UI**]
+![image](https://user-images.githubusercontent.com/80614927/143677526-f3934912-66b5-434b-856c-5213b078712c.png)   
+* [**Player UI**]
+![image](https://user-images.githubusercontent.com/80614927/143677742-8d85dd7f-57bb-4f65-ba9c-dad540f22ff0.png)   
+
+<br/>
