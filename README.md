@@ -156,7 +156,6 @@ public void Swap()
     {
         if (zDown)
         {
-            Debug.Log("들어옴");
             if (hasWeapons[0] == false && hasWeapons[1] == false)
             {
 
@@ -189,7 +188,7 @@ public void profession(int num)
         if (!isJump && !isDodge && moveVec == Vector3.zero && !isDead)
         {
             
-            if (profession_player != null) //setactive 사용시 앞에 gameobject +
+            if (profession_player != null)
             {
                 
                 profession_player.gameObject.SetActive(false);
@@ -232,12 +231,15 @@ public void profession(int num)
  }
 ```
 * [**Player Logic**]
-  - ![image](https://user-images.githubusercontent.com/80614927/193107105-e6ebe52f-89f2-4293-a2eb-f225a3ec1f8b.png)
+  - [**Tutorial Script**]
   - ![image](https://user-images.githubusercontent.com/80614927/193109874-3602856b-8dc5-4376-8259-eb8d6e3e4080.png)
 
 * [**InDungeon Logic**]
+  - [**던전 입장 로직**]
   - ![image](https://user-images.githubusercontent.com/80614927/193107499-d00f28bf-5915-49ad-9c0e-79e1238e8678.png)
+  - [**던전 로직**]
   - ![image](https://user-images.githubusercontent.com/80614927/193107586-3a49574e-d71c-4597-b3b0-76493386fdcf.png)
+  - [**어그로 로직**]
   - ![image](https://user-images.githubusercontent.com/80614927/193107878-efa5b1de-7f1d-4625-b873-dc418535dbf5.png)
 
 
