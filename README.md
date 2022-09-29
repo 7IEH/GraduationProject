@@ -231,12 +231,209 @@ public void profession(int num)
  }
 ```
 * [**Player Logic**]
-  - [**Tutorial Script**]
+  - [**튜토리얼**]
    ![image](https://user-images.githubusercontent.com/80614927/193109874-3602856b-8dc5-4376-8259-eb8d6e3e4080.png)
+><br/>1. GameManager에서 GameStart 함수가 실행되면서 시작됩니다. 이때 PanelUI의 animation과 textUI를 셋팅 시켜 해당 조건을 만족할 경우 다음 tutorial을 불러오게 끔합니다. 
+><br/>2. tutorial 함수에서는 항상 해당 조건이 완료되었는지 모르니 tu_next라는 bool 멤버 변수를 주어 해당 변수가 true가 되면 GameManager에 LateUpdate로 하여금 
+><br/>다음 튜토리얼 진행하게 끔합니다.
+><br/>3. 기본 조작법이 끝나면 다음으로 나오는 tutorial들은 해당 object와의 상호 작용을 통해 조건 완수를 알수 있으므로 tu_next함수는 더 이상 사용되지 않습니다.
+```
+  public void GameStart()
+    {
+        TutorialPanel.SetBool("isShow", true);
+        Tutorial(1);
+    }
+```
+```
+// GameManager Tutorial 함수
+public void Tutorial(int tu_num)
+    {
+        int index = tu_num;
+        if (index == 1)
+        {
+            if (player.moveVec == Vector3.zero)
+            {
+                TutorialText.text = "방향키는 WASD 입니다.";
+                tu_next1 = true;
+            }
+        }
+        else if (index == 2)
+        {
+            if (player.rDown == false)
+            {
+                TutorialText.text = "대쉬는 방향키를 누른 상태에서 SHIFT를 눌러주세요.";
+                tu_next2 = true;
+            }
+            
+        }
+        else if (index == 3)
+        {
+            if (player.jDown == false)
+            {
+                TutorialText.text = "닷지는 방향키를 누른 상태에서 SPACE를 눌러주세요.";
+                tu_next3 = true;
+            }
+        }
+        else if (index == 4)
+        {
+            TutorialText.text = "기본 조작법은 끝났습니다.\n마을로 이동해주세요.";
+        }
 
+        else if (index == 5)
+        {
+            TutorialText.text = "마을입니다.\n 루나가 당신을 찾고있습니다.\n루나를 찾아주세요!";
+            
+        }
+        else if (index == 6)
+        {
+            TutorialPanel.SetBool("isShow", true);
+            TutorialText.text = "철제점 아저씨가 당신을 찾고 있습니다.\n마을 오른쪽에 있는 철제점을 찾아주세요!";
+        }
+        else if (index == 7)
+        {
+            player.equip = 0;
+            player.profession(player.equip);
+            player.hasWeapons[player.equip] = true;
+            hammerimg.gameObject.SetActive(true);
+            hammertxt.gameObject.SetActive(true);
+            TutorialPanel.SetBool("isShow", true);
+            TutorialText.text = "농장 아주머니가 당신을 찾고 있습니다.\n철제점 오른쪽에 있는 농장 아주머니를 찾아주세요!";
+
+        }
+        else if (index == 8)
+        {
+            player.HpPotion = 2;
+            TutorialPanel.SetBool("isShow", true);
+            TutorialText.text = "여행에 필요한 모든 것을 챙겼습니다.\n마을 왼쪽 상단에 마을 입구를 찾아 여행을 시작해주세요!";
+        }
+        else if (index == 9)
+        {
+            TutorialPanel.SetBool("isShow", true);
+            TutorialText.text = "공격 키는 마우스 왼쪽 버튼입니다.\n앞에 있는 몬스터를 잡아주세요!";   
+        }
+        else if (index == 10)
+        {
+            tu_next4 = true;
+            if (player.health == 100)
+            {
+                player.health = 80;
+            }
+            else
+            {
+
+            }
+            TutorialPanel.SetBool("isShow", true);
+            TutorialText.text = "체력이 달았습니다.\n1번을 눌러서 체력을 회복해주세요!";
+        }
+        else if (index == 11)
+        {
+            tu_next5 = true;
+            player.health = 50;
+            TutorialPanel.SetBool("isShow", true);
+            TutorialText.text = "스테이지에 떨어진 아이템에 상호작용 버튼은 e 입니다!";
+        }  
+    }
+```
+```
+// gamemanager LateUpdate
+void LateUpdate()
+{
+  if (player.moveVec != Vector3.zero && tu_next1 == true)
+        {
+            tu_next1 = false;
+            Tutorial(2);
+        }
+        if (player.rDown==true && tu_next2 == true)
+        {
+            tu_next2 = false;
+            Tutorial(3);
+        }
+        if (player.jDown == true && tu_next3 == true && player.moveVec != Vector3.zero)
+        {
+            tu_next3 = false;
+            Tutorial(4);
+        }
+        if (player.oneDown == true && tu_next4 == true)
+        {  
+            tu_next4 = false;
+            TutorialPanel.SetBool("isShow", false);
+        }
+        if (player.eDown == true && tu_next5 == true)
+        {
+            tu_next5 = false;
+            TutorialPanel.SetBool("isShow", false);
+        }
+  }
+```
 * [**InDungeon Logic**]
   - [**던전 입장 로직**]
    ![image](https://user-images.githubusercontent.com/80614927/193107499-d00f28bf-5915-49ad-9c0e-79e1238e8678.png)
+   <br/> Dunenter라는 tag를 가진 collider가 있는 곳에서 player object가 interaction을 할 경우 기존에 생성해놓은 panelUI가 애니메이션과 함께
+   <br/> 사용자의 화면에 등장하고 이때 이 패널 button에 저장해놓은 player 함수를 실행하면 해당 던전에 시작에 해당하는 좌표로 player object에 좌표를 이동시킵니다.
+  ```
+  void interaction()
+  {
+    ...
+      else if (nearObject.tag == "Dunenter")
+            {
+                if (hasKeys[0] == false)
+                {
+                    DunEnter dunenter = nearObject.GetComponent<DunEnter>();
+                    dunenter.GreenEnter();
+                }
+                else if (hasKeys[2] == true)
+                {
+                    DunEnter dunenter = nearObject.GetComponent<DunEnter>();
+                    dunenter.FinalEnter();
+                }
+                else if ((hasKeys[2] == false) && (hasKeys[1] == true) && (hasKeys[0] == true))
+                {
+                    DunEnter dunenter = nearObject.GetComponent<DunEnter>();
+                    dunenter.RedEnter();
+                }
+                else if ((hasKeys[2] == false) && (hasKeys[1] == false) && (hasKeys[0] == true))
+                {
+                    DunEnter dunenter = nearObject.GetComponent<DunEnter>();
+                    dunenter.BlueEnter();
+                }
+            }
+    ...
+  }
+  ```
+  ```
+  // panel에 심은 player 함수
+   public void PlayerInGreenDungeon(bool enter)
+    {
+        if (!isJump && !isDodge && moveVec == Vector3.zero)
+        {
+            if (enter == true)
+            {
+                this.transform.position = new Vector3(172, 1, -72.97f);
+                DunEnter dunEnter = nearObject.GetComponent<DunEnter>();
+                dunEnter.GreenExit();
+            }
+            else
+            {
+                DunEnter dunenter = nearObject.GetComponent<DunEnter>();
+                dunenter.GreenExit();
+            }
+        }
+    }
+  ```
+  ```
+  // Dunenter class 안에 멤버 함수들
+  public void GreenEnter()
+    {
+        TutorialPanel.SetBool("isShow", false);
+        uiGroup1.anchoredPosition = Vector3.zero;
+
+    }
+
+    public void GreenExit()
+    {
+        uiGroup1.anchoredPosition = Vector3.down * 2000;
+    }
+  ```
   - [**던전 로직**]
    ![image](https://user-images.githubusercontent.com/80614927/193107586-3a49574e-d71c-4597-b3b0-76493386fdcf.png)
   - [**어그로 로직**]
