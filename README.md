@@ -1,4 +1,4 @@
-# TeamLeader portfolio
+# 유기태 졸업프로젝트 portfolio
 ## Summary
 Unity engine 기반 quarterview 로그라이크형식 Game Development project
 
