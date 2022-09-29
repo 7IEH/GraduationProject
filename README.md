@@ -112,8 +112,8 @@ Unity engine 기반 quarterview 로그라이크형식 Game Development project
   }
 ```
 > <br/> 해당 hasKeys 배열은 나중에 던전 입구에서 던전으로 들어가는 로직에서도 활용하였습니다.
-> 4. 플레이 타임
-> GameManger에서 프레임 마다 해당 시간을 구해주면서 프레임 마지막에 시간을 적용 시켜 text UI에 셋팅하였습니다.
+> <br/> 4. 플레이 타임
+> <br/>GameManger에서 프레임 마다 해당 시간을 구해주면서 프레임 마지막에 시간을 적용 시켜 text UI에 셋팅하였습니다.
 ```
 // GameManager Update 부분
  void Update()
@@ -132,8 +132,8 @@ Unity engine 기반 quarterview 로그라이크형식 Game Development project
       timetext.text = string.Format("{0:00}", hour) + ":" + string.Format("{0:00}", min) + ":" + string.Format("{0:00}", second);
  }
 ```
-> 5. 플레이 아이템
-> 
+> <br/>5. 플레이 아이템
+> <br/>
 * [**Player Logic**]
   - ![image](https://user-images.githubusercontent.com/80614927/193107105-e6ebe52f-89f2-4293-a2eb-f225a3ec1f8b.png)
   - ![image](https://user-images.githubusercontent.com/80614927/193109874-3602856b-8dc5-4376-8259-eb8d6e3e4080.png)
