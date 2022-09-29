@@ -39,11 +39,69 @@ Unity engine 기반 quarterview 로그라이크형식 Game Development project
   - [**Build**] 
 ![image](https://user-images.githubusercontent.com/80614927/143677742-8d85dd7f-57bb-4f65-ba9c-dad540f22ff0.png)
 > 1. HP
-> <br/> GameManager 컴포넌트 안에서 player object에 HP 계산이 끝난 즉, 프레임에 끝에 HP가 적용되야 하기때문에 lateupdate에서 다음과 같이 업데이트합니다.
-> <br/> playerHealthTxt.text = player.health +"/";
+> <br/> GameManager 컴포넌트 안에서 player object에 HP 계산이 끝난 뒤 즉, 프레임에 끝에 HP가 적용되야 하기때문에 lateupdate에서 
+> <br/> 다음과 같이 UI text에 player object에 health 멤버 변수를 업데이트합니다.
+>> <br/> playerHealthTxt.text = player.health +"/";
+> <br/> 체력 UI 그림 역시 상술한 이유와 같이 GameManager 컴포넌트 안에서 lateupdate에서 다음과 같이 빨간색인 PlayerHealthBar Panel과
+> <br/> 하얀색 HealthBar Panel를 겹처서 PlayerHealthBar Panel이 크기를 줄이는 방식을 사용하였습니다.
+>> <br/> PlayerHealthBar.localScale = new Vector3((float)player.health / 100, 1, 1);
 > 2. 소지GOLD
-> 
+> <br/> 소지 Gold도 상술한 이유로 GameManager에 lateupdate에서 다음과 같이 업데이트 하였습니다.
+>> <br/> cointext.text = player.Gold.ToString();
 > 3. 흭득한 열쇠
+> <br/> 흭득한 열쇠도 상술한 이유로 GameManager에 lateupdate에서 다음과 같이 업데이트 하였습니다.
+> <br/> RED,BLUE,GREEN 던전에 보스 몬스터를 클리어 하면 다음 던전으로 이동할 수 있는 열쇠를 드롭하는데 해당 열쇠가 가지고 있는 collider와 PlayerObject가 상호작용 시
+> <br/> player object에서 해당 열쇠 object가 가지고 있는 Item Script에 멤버 변수인 value 값을 가져와 hasKeys에 해당 value 배열 값을 true로 만들면
+> <br/> lateupdate에서 비어 있는 이미지를 가진 object인 whitekey object를 비활성화 시키고 얻은 열쇠의 이미지에 해당하는 이미지를 활성화 하여 업데이트 하였습니다.
+> <br/>플레이어 상호작용
+>> <br/> void Interaction()
+    {
+        if (eDown && nearObject != null && !isDodge && !isJump && !isDead)
+        {
+           else if (nearObject.tag == "GreenKey")
+            {
+                Item item = nearObject.GetComponent<Item>();
+                int keyIndex = item.value;
+                hasKeys[keyIndex] = true;
+
+                Destroy(nearObject);
+            }
+            else if (nearObject.tag == "BlueKey")
+            {
+                Item item = nearObject.GetComponent<Item>();
+                int keyIndex = item.value;
+                hasKeys[keyIndex] = true;
+
+                Destroy(nearObject);
+            }
+            else if (nearObject.tag == "RedKey")
+            {
+                Item item = nearObject.GetComponent<Item>();
+                int keyIndex = item.value;
+                hasKeys[keyIndex] = true;
+
+                Destroy(nearObject);
+            }
+        }
+    }
+> <br/>GameManagerUpdate에서의 코드
+>> <br/> if (player.hasKeys[0] == true)
+>> <br/>  {
+>> <br/>      whitekey1_img.gameObject.SetActive(false);
+>> <br/>      greenkey_img.gameObject.SetActive(true);
+>> <br/>  }
+>> <br/> if (player.hasKeys[1] == true)
+>> <br/>  {
+>> <br/>      whitekey2_img.gameObject.SetActive(false);
+>> <br/>      bluekey_img.gameObject.SetActive(true);
+>> <br/>  }
+>> <br/> if (player.hasKeys[2] == true)
+>> <br/>  {
+>> <br/>      whitekey3_img.gameObject.SetActive(false);
+>> <br/>      redkey_img.gameObject.SetActive(true);
+>> <br/>  }
+> <br/> 해당 hasKeys 배열은 나중에 던전 입구에서 던전으로 들어가는 로직에서도 활용하였습니다.
+>> <
 > 4. 플레이 타임
 > 5. 플레이 아이템
 * [**Player Logic**]
