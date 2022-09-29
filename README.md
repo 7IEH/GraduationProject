@@ -41,10 +41,14 @@ Unity engine 기반 quarterview 로그라이크형식 Game Development project
 > 1. HP
 > <br/> GameManager 컴포넌트 안에서 player object에 HP 계산이 끝난 뒤 즉, 프레임에 끝에 HP가 적용되야 하기때문에 lateupdate에서 
 > <br/> 다음과 같이 UI text에 player object에 health 멤버 변수를 업데이트합니다.
->> <br/> playerHealthTxt.text = player.health +"/";
+ ```
+  playerHealthTxt.text = player.health +"/";
+```
 > <br/> 체력 UI 그림 역시 상술한 이유와 같이 GameManager 컴포넌트 안에서 lateupdate에서 다음과 같이 빨간색인 PlayerHealthBar Panel과
 > <br/> 하얀색 HealthBar Panel를 겹처서 PlayerHealthBar Panel이 크기를 줄이는 방식을 사용하였습니다.
->> <br/> PlayerHealthBar.localScale = new Vector3((float)player.health / 100, 1, 1);
+```
+  PlayerHealthBar.localScale = new Vector3((float)player.health / 100, 1, 1);
+```
 > 2. 소지GOLD
 > <br/> 소지 Gold도 상술한 이유로 GameManager에 lateupdate에서 다음과 같이 업데이트 하였습니다.
 >> <br/> cointext.text = player.Gold.ToString();
@@ -102,11 +106,10 @@ Unity engine 기반 quarterview 로그라이크형식 Game Development project
  if (player.hasKeys[2] == true)
   {
       whitekey3_img.gameObject.SetActive(false);
-     redkey_img.gameObject.SetActive(true);
+      redkey_img.gameObject.SetActive(true);
   }
- ```
+```
 > <br/> 해당 hasKeys 배열은 나중에 던전 입구에서 던전으로 들어가는 로직에서도 활용하였습니다.
->> <
 > 4. 플레이 타임
 > 5. 플레이 아이템
 * [**Player Logic**]
