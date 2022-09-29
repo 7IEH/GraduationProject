@@ -53,8 +53,9 @@ Unity engine 기반 quarterview 로그라이크형식 Game Development project
 > <br/> RED,BLUE,GREEN 던전에 보스 몬스터를 클리어 하면 다음 던전으로 이동할 수 있는 열쇠를 드롭하는데 해당 열쇠가 가지고 있는 collider와 PlayerObject가 상호작용 시
 > <br/> player object에서 해당 열쇠 object가 가지고 있는 Item Script에 멤버 변수인 value 값을 가져와 hasKeys에 해당 value 배열 값을 true로 만들면
 > <br/> lateupdate에서 비어 있는 이미지를 가진 object인 whitekey object를 비활성화 시키고 얻은 열쇠의 이미지에 해당하는 이미지를 활성화 하여 업데이트 하였습니다.
-> <br/>플레이어 상호작용
+
 ```
+//플레이어 상호작용
     void Interaction()
     {
         if (eDown && nearObject != null && !isDodge && !isJump && !isDead)
@@ -86,22 +87,24 @@ Unity engine 기반 quarterview 로그라이크형식 Game Development project
         }
      }
 ```
-> <br/>GameManagerUpdate에서의 코드
->> <br/> if (player.hasKeys[0] == true)
->> <br/>  {
->> <br/>      whitekey1_img.gameObject.SetActive(false);
->> <br/>      greenkey_img.gameObject.SetActive(true);
->> <br/>  }
->> <br/> if (player.hasKeys[1] == true)
->> <br/>  {
->> <br/>      whitekey2_img.gameObject.SetActive(false);
->> <br/>      bluekey_img.gameObject.SetActive(true);
->> <br/>  }
->> <br/> if (player.hasKeys[2] == true)
->> <br/>  {
->> <br/>      whitekey3_img.gameObject.SetActive(false);
->> <br/>      redkey_img.gameObject.SetActive(true);
->> <br/>  }
+```
+//GameManagerUpdate에서의 코드
+ if (player.hasKeys[0] == true)
+  {
+      whitekey1_img.gameObject.SetActive(false);
+      greenkey_img.gameObject.SetActive(true);
+  }
+ if (player.hasKeys[1] == true)
+  {
+      whitekey2_img.gameObject.SetActive(false);
+      bluekey_img.gameObject.SetActive(true);
+  }
+ if (player.hasKeys[2] == true)
+  {
+      whitekey3_img.gameObject.SetActive(false);
+     redkey_img.gameObject.SetActive(true);
+  }
+ ```
 > <br/> 해당 hasKeys 배열은 나중에 던전 입구에서 던전으로 들어가는 로직에서도 활용하였습니다.
 >> <
 > 4. 플레이 타임
