@@ -38,7 +38,7 @@ Unity engine 기반 quarterview 로그라이크형식 Game Development project
 ![image](https://user-images.githubusercontent.com/80614927/193110132-1093e233-c873-481c-b41d-cfbc318f96e0.png)
   - [**Build**] 
 ![image](https://user-images.githubusercontent.com/80614927/143677742-8d85dd7f-57bb-4f65-ba9c-dad540f22ff0.png)
-> 1. HP
+> __1. HP__
 > <br/> GameManager 컴포넌트 안에서 player object에 HP 계산이 끝난 뒤 즉, 프레임에 끝에 HP가 적용되야 하기때문에 lateupdate에서 
 > <br/> 다음과 같이 UI text에 player object에 health 멤버 변수를 업데이트합니다.
 > <br/> 체력 UI 그림 역시 상술한 이유와 같이 GameManager 컴포넌트 안에서 lateupdate에서 다음과 같이 빨간색인 PlayerHealthBar Panel과
@@ -51,12 +51,12 @@ Unity engine 기반 quarterview 로그라이크형식 Game Development project
 // 그림 UI 부분(Panel)
   PlayerHealthBar.localScale = new Vector3((float)player.health / 100, 1, 1);
 ```
-> 2. 소지GOLD
+> __2. 소지GOLD__
 > <br/> 소지 Gold도 상술한 이유로 GameManager에 lateupdate에서 다음과 같이 업데이트 하였습니다.
 ```
  cointext.text = player.Gold.ToString();
 ```
-> 3. 흭득한 열쇠
+> __3. 흭득한 열쇠__
 > <br/> 흭득한 열쇠도 상술한 이유로 GameManager에 lateupdate에서 다음과 같이 업데이트 하였습니다.
 > <br/> RED,BLUE,GREEN 던전에 보스 몬스터를 클리어 하면 다음 던전으로 이동할 수 있는 열쇠를 드롭하는데 해당 열쇠가 가지고 있는 collider와 PlayerObject가 상호작용 시
 > <br/> player object에서 해당 열쇠 object가 가지고 있는 Item Script에 멤버 변수인 value 값을 가져와 hasKeys에 해당 value 배열 값을 true로 만들면
@@ -115,7 +115,7 @@ Unity engine 기반 quarterview 로그라이크형식 Game Development project
   }
  }
 ```
-> 4. 플레이 타임
+> __4. 플레이 타임__
 > <br/>GameManger에서 프레임 마다 해당 시간을 구해주면서 프레임 마지막에 시간을 적용 시켜 text UI에 셋팅하였습니다.
 ```
 // GameManager Update 부분
@@ -135,7 +135,7 @@ Unity engine 기반 quarterview 로그라이크형식 Game Development project
       timetext.text = string.Format("{0:00}", hour) + ":" + string.Format("{0:00}", min) + ":" + string.Format("{0:00}", second);
  }
 ```
-> 5. 플레이 아이템
+> __5. 플레이 아이템__
 > <br/> 체력 포션 UI도 상술한 이유와 같이 GameManager에서 lateupadte에서 다음과 같이 업데이트하도록 하였습니다.
 > <br/> 현재 무기 UI 같은 경우 player script가 가지고 있던 profession_num이라는 gameobject 배열에 player object에 부착 시켜둔 무기 object들을 담아 놓고
 > <br/> Z키를 눌러 무기를 스왑하는데 이때 바뀐 무기에 해당하는 이미지와 텍스트를 업데이트합니다.
