@@ -51,7 +51,9 @@ Unity engine 기반 quarterview 로그라이크형식 Game Development project
 ```
 > 2. 소지GOLD
 > <br/> 소지 Gold도 상술한 이유로 GameManager에 lateupdate에서 다음과 같이 업데이트 하였습니다.
->> <br/> cointext.text = player.Gold.ToString();
+```
+ cointext.text = player.Gold.ToString();
+```
 > 3. 흭득한 열쇠
 > <br/> 흭득한 열쇠도 상술한 이유로 GameManager에 lateupdate에서 다음과 같이 업데이트 하였습니다.
 > <br/> RED,BLUE,GREEN 던전에 보스 몬스터를 클리어 하면 다음 던전으로 이동할 수 있는 열쇠를 드롭하는데 해당 열쇠가 가지고 있는 collider와 PlayerObject가 상호작용 시
@@ -59,7 +61,7 @@ Unity engine 기반 quarterview 로그라이크형식 Game Development project
 > <br/> lateupdate에서 비어 있는 이미지를 가진 object인 whitekey object를 비활성화 시키고 얻은 열쇠의 이미지에 해당하는 이미지를 활성화 하여 업데이트 하였습니다.
 
 ```
-//플레이어 상호작용
+// 플레이어 상호작용
     void Interaction()
     {
         if (eDown && nearObject != null && !isDodge && !isJump && !isDead)
@@ -92,7 +94,7 @@ Unity engine 기반 quarterview 로그라이크형식 Game Development project
      }
 ```
 ```
-//GameManagerUpdate에서의 코드
+// GameManagerUpdate에서의 코드
  if (player.hasKeys[0] == true)
   {
       whitekey1_img.gameObject.SetActive(false);
@@ -111,7 +113,27 @@ Unity engine 기반 quarterview 로그라이크형식 Game Development project
 ```
 > <br/> 해당 hasKeys 배열은 나중에 던전 입구에서 던전으로 들어가는 로직에서도 활용하였습니다.
 > 4. 플레이 타임
+> GameManger에서 프레임 마다 해당 시간을 구해주면서 프레임 마지막에 시간을 적용 시켜 text UI에 셋팅하였습니다.
+```
+// GameManager Update 부분
+ void Update()
+ {
+     playTime += Time.deltaTime;
+ }
+```
+```
+// GameManager lateupdate 부분
+ void LateUpdate()
+ {
+      int hour = (int)(playTime / 3600);
+      int min = (int)((playTime - hour * 3600) / 60);
+      int second = (int)(playTime % 60);
+      
+      timetext.text = string.Format("{0:00}", hour) + ":" + string.Format("{0:00}", min) + ":" + string.Format("{0:00}", second);
+ }
+```
 > 5. 플레이 아이템
+> 
 * [**Player Logic**]
   - ![image](https://user-images.githubusercontent.com/80614927/193107105-e6ebe52f-89f2-4293-a2eb-f225a3ec1f8b.png)
   - ![image](https://user-images.githubusercontent.com/80614927/193109874-3602856b-8dc5-4376-8259-eb8d6e3e4080.png)
