@@ -34,19 +34,19 @@ Unity engine 기반 quarterview 로그라이크형식 Game Development project
 * [**UI**]
 ![image](https://user-images.githubusercontent.com/80614927/143677832-ed422251-b684-41bf-b5f9-12311ac67416.png)
 * [**Player UI**]
- - [**Prototype**]
+  - [**Prototype**]
 ![image](https://user-images.githubusercontent.com/80614927/193110132-1093e233-c873-481c-b41d-cfbc318f96e0.png)
- - [**Build**] 
+  - [**Build**] 
 ![image](https://user-images.githubusercontent.com/80614927/143677742-8d85dd7f-57bb-4f65-ba9c-dad540f22ff0.png)   
 * [**Player Logic**]
- - ![image](https://user-images.githubusercontent.com/80614927/193107105-e6ebe52f-89f2-4293-a2eb-f225a3ec1f8b.png)
- - ![image](https://user-images.githubusercontent.com/80614927/193109874-3602856b-8dc5-4376-8259-eb8d6e3e4080.png)
+  - ![image](https://user-images.githubusercontent.com/80614927/193107105-e6ebe52f-89f2-4293-a2eb-f225a3ec1f8b.png)
+  - ![image](https://user-images.githubusercontent.com/80614927/193109874-3602856b-8dc5-4376-8259-eb8d6e3e4080.png)
 
 
 * [**InDungeon Logic**]
- - ![image](https://user-images.githubusercontent.com/80614927/193107499-d00f28bf-5915-49ad-9c0e-79e1238e8678.png)
- - ![image](https://user-images.githubusercontent.com/80614927/193107586-3a49574e-d71c-4597-b3b0-76493386fdcf.png)
- - ![image](https://user-images.githubusercontent.com/80614927/193107878-efa5b1de-7f1d-4625-b873-dc418535dbf5.png)
+  - ![image](https://user-images.githubusercontent.com/80614927/193107499-d00f28bf-5915-49ad-9c0e-79e1238e8678.png)
+  - ![image](https://user-images.githubusercontent.com/80614927/193107586-3a49574e-d71c-4597-b3b0-76493386fdcf.png)
+  - ![image](https://user-images.githubusercontent.com/80614927/193107878-efa5b1de-7f1d-4625-b873-dc418535dbf5.png)
 
 
 <br/>
