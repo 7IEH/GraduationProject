@@ -44,8 +44,8 @@ Unity engine 기반 quarterview 로그라이크형식 Game Development project
  ```
   playerHealthTxt.text = player.health +"/";
 ```
-> <br/> 체력 UI 그림 역시 상술한 이유와 같이 GameManager 컴포넌트 안에서 lateupdate에서 다음과 같이 빨간색인 PlayerHealthBar Panel과
-> <br/> 하얀색 HealthBar Panel를 겹처서 PlayerHealthBar Panel이 크기를 줄이는 방식을 사용하였습니다.
+> <br/>  체력 UI 그림 역시 상술한 이유와 같이 GameManager 컴포넌트 안에서 lateupdate에서 다음과 같이 빨간색인 PlayerHealthBar Panel과
+> <br/>  하얀색 HealthBar Panel를 겹처서 PlayerHealthBar Panel이 크기를 줄이는 방식을 사용하였습니다.
 ```
   PlayerHealthBar.localScale = new Vector3((float)player.health / 100, 1, 1);
 ```
