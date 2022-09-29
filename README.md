@@ -368,8 +368,9 @@ void LateUpdate()
 * [**InDungeon Logic**]
   - [**던전 입장 로직**]
    ![image](https://user-images.githubusercontent.com/80614927/193107499-d00f28bf-5915-49ad-9c0e-79e1238e8678.png)
-   <br/> Dunenter라는 tag를 가진 collider가 있는 곳에서 player object가 interaction을 할 경우 기존에 생성해놓은 panelUI가 애니메이션과 함께
-   <br/> 사용자의 화면에 등장하고 이때 이 패널 button에 저장해놓은 player 함수를 실행하면 해당 던전에 시작에 해당하는 좌표로 player object에 좌표를 이동시킵니다.
+   <br/> Dunenter라는 tag를 가진 collider가 있는 곳에서 player object가 interaction을 할 경우
+   <br/> 기존에 생성해놓은 panelUI가 애니메이션과 함께 사용자의 화면에 등장하고
+   <br/> 이때 이 패널 button에 저장해놓은 player 함수를 실행하면 해당 던전에 시작에 해당하는 좌표로 player object에 좌표를 이동시킵니다.
   ```
   void interaction()
   {
