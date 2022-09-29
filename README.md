@@ -37,17 +37,18 @@ Unity engine 기반 quarterview 로그라이크형식 Game Development project
   - [**Prototype**]
 ![image](https://user-images.githubusercontent.com/80614927/193110132-1093e233-c873-481c-b41d-cfbc318f96e0.png)
   - [**Build**] 
-![image](https://user-images.githubusercontent.com/80614927/143677742-8d85dd7f-57bb-4f65-ba9c-dad540f22ff0.png)   
-* [**Player Logic**]
-  - ![image](https://user-images.githubusercontent.com/80614927/193107105-e6ebe52f-89f2-4293-a2eb-f225a3ec1f8b.png)
-  - ![image](https://user-images.githubusercontent.com/80614927/193109874-3602856b-8dc5-4376-8259-eb8d6e3e4080.png)
+![image](https://user-images.githubusercontent.com/80614927/143677742-8d85dd7f-57bb-4f65-ba9c-dad540f22ff0.png)
 > 1. HP
-><br/> GameManager 컴포넌트 안에서 player object에 HP 계산이 끝난 즉, 프레임에 끝에 HP가 적용되야 하기때문에 lateupdate에서 다음과 같이 업데이트합니다.
-><br/> playerHealthTxt.text = player.health +"/";
+> <br/> GameManager 컴포넌트 안에서 player object에 HP 계산이 끝난 즉, 프레임에 끝에 HP가 적용되야 하기때문에 lateupdate에서 다음과 같이 업데이트합니다.
+> <br/> playerHealthTxt.text = player.health +"/";
 > 2. 소지GOLD
+> 
 > 3. 흭득한 열쇠
 > 4. 플레이 타임
 > 5. 플레이 아이템
+* [**Player Logic**]
+  - ![image](https://user-images.githubusercontent.com/80614927/193107105-e6ebe52f-89f2-4293-a2eb-f225a3ec1f8b.png)
+  - ![image](https://user-images.githubusercontent.com/80614927/193109874-3602856b-8dc5-4376-8259-eb8d6e3e4080.png)
 
 * [**InDungeon Logic**]
   - ![image](https://user-images.githubusercontent.com/80614927/193107499-d00f28bf-5915-49ad-9c0e-79e1238e8678.png)
