@@ -54,6 +54,7 @@ Unity engine 기반 quarterview 로그라이크형식 Game Development project
 > <br/> player object에서 해당 열쇠 object가 가지고 있는 Item Script에 멤버 변수인 value 값을 가져와 hasKeys에 해당 value 배열 값을 true로 만들면
 > <br/> lateupdate에서 비어 있는 이미지를 가진 object인 whitekey object를 비활성화 시키고 얻은 열쇠의 이미지에 해당하는 이미지를 활성화 하여 업데이트 하였습니다.
 > <br/>플레이어 상호작용
+```
     void Interaction()
     {
         if (eDown && nearObject != null && !isDodge && !isJump && !isDead)
@@ -84,6 +85,7 @@ Unity engine 기반 quarterview 로그라이크형식 Game Development project
             }
         }
      }
+```
 > <br/>GameManagerUpdate에서의 코드
 >> <br/> if (player.hasKeys[0] == true)
 >> <br/>  {
