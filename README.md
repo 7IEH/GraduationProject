@@ -437,6 +437,84 @@ void LateUpdate()
   ```
   - [**던전 로직**]
    ![image](https://user-images.githubusercontent.com/80614927/193107586-3a49574e-d71c-4597-b3b0-76493386fdcf.png)
+   ><br/> 던전안에 각 스테이지 입구앞에 collider component를 가진 gameobject을 설치하여 해당 gameobject안에 ontriggerEnter에서 충돌된 물체가 player이면
+   ><br/> gamemanager 안에서 StageStart 멤버 함수를 실행시킵니다. 이때 매개변수로 가져간 숫자에 따라 각각의 스테이지에 따른 로직을 작동시킵니다.
+   ><br/> 스테이지에 공통된 로직은 plyaer object가 진입 시 그 로직이 다시 실행되지 않게 우선 player object가 충돌 이벤트를 일으키는 상술한 gameobject를 비활성화 시키고
+   ><br/> 플레이어가 해당 스테이지에서 잠금 조건을 해제할때까지 나가지 못하게 미리 설치해둔 벽 object들을 활성화 시킵니다.
+   ><br/> 던전 로직 중 하나를 예시로 들자면 해당 스테이지에 리스폰 된 몬스터들을 모두 해치우면 해당 stage가 끝나는 로직이 있습니다.
+   ><br/> 몹을 리스폰 할 때 gamemanger에 멤버 변수인 enemyCnt에 현재 소환된 몹들의 수를 담아두고 lateupdate에서 enemycnt를 확인합니다. 
+   ><br/> 이때 스테이지 진입전에는 항시 enemyCnt가 0이니까 하나 더 조건을 추가합니다. 현재 배틀중인지를 확인하는 IsBattle 멤버변수를 추가하여 StageStart 함수에서
+   ><br/> true로 변환하여 lateupdate에서 확인합니다. 이때 enemyCnt가 0이 되고 현재 isBattle이 true이면 stageEnd 함수를 실행합니다.
+   ><br/> stageEnd 함수는 상술한 각각의 스테이지를 확인하는 숫자를 조건으로 if문을 통해 실행합니다.
+  '''
+  // 스테이지 입구에 있는 gameobject OnTriggerEnter함수
+  public class EnterLock : MonoBehaviour
+{
+    public GameManager manager;
+
+    void OnTriggerEnter(Collider other)
+    {
+        int gate = 1;
+        if (other.gameObject.tag == "Player")
+            manager.StageStart(gate);
+    }
+}
+  '''
+  '''
+  public void StageStart(int gate)
+  {
+        if (gate == 0)
+        {
+            //tutorial
+            gate_num = 0;
+            GameObject instantEnemy = Instantiate(enemies[0], enemyZones[0].position, enemyZones[0].rotation);
+            Enemy enemy = instantEnemy.GetComponent<Enemy>();
+            enemy.target = player.transform;
+            enemy.gamemanager = this;
+            isBattle = true;
+            enemyCnt++;
+        }
+        else if (gate == 1)
+        {
+            //green room1
+            gate_num = 1;
+            LockTrigger.SetActive(false);
+            EnterLock1.SetActive(true);
+            EnterLock2.SetActive(true);
+            Debug.Log("진입");
+            for (int MobCount = 1; MobCount < 5; MobCount++)
+            {
+
+                GameObject instantEnemy = Instantiate(enemies[0], enemyZones[MobCount].position, enemyZones[MobCount].rotation);
+                Enemy enemy = instantEnemy.GetComponent<Enemy>();
+                enemy.target = player.transform;
+                enemy.gamemanager = this;
+                enemyCnt++;
+            }
+            isBattle = true;
+        }
+ }
+  '''
+  '''
+  //
+  void LateUpdate()
+  {
+   if (enemyCnt<=0 && isBattle==true)
+   {
+            StageEnd();
+   }
+  }
+  '''
+  '''
+  public void StageEnd()
+  {
+        if (gate_num == 0)
+        {
+            TutorialPanel.SetBool("isShow", false);
+            isBattle = false;
+        }
+  }
+  '''
   - [**어그로 로직**]
    ![image](https://user-images.githubusercontent.com/80614927/193107878-efa5b1de-7f1d-4625-b873-dc418535dbf5.png)
 
