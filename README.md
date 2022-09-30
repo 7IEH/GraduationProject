@@ -459,8 +459,8 @@ void LateUpdate()
             manager.StageStart(gate);
     }
 }
-  ```
-  ```
+```
+```
   public void StageStart(int gate)
   {
         if (gate == 0)
@@ -494,8 +494,8 @@ void LateUpdate()
             isBattle = true;
         }
  }
-  ```
-  ```
+```
+```
   //
   void LateUpdate()
   {
@@ -504,8 +504,8 @@ void LateUpdate()
             StageEnd();
    }
   }
-  ```
-  ```
+```
+```
   public void StageEnd()
   {
         if (gate_num == 0)
@@ -514,7 +514,7 @@ void LateUpdate()
             isBattle = false;
         }
   }
-  ```
+```
   - [**어그로 로직**]
    ![image](https://user-images.githubusercontent.com/80614927/193107878-efa5b1de-7f1d-4625-b873-dc418535dbf5.png)
 
