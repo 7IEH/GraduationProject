@@ -517,8 +517,66 @@ void LateUpdate()
 ```
   - [**어그로 로직**]
    ![image](https://user-images.githubusercontent.com/80614927/193107878-efa5b1de-7f1d-4625-b873-dc418535dbf5.png)
-
-
+   <br/> 해당 게임에 사용되지는 않았지만 활용하려던 로직입니다.
+   <br/> 몬스터와 몬스터가 target하고 있는 object에 거리를 계산하여 해당하는 거리안에 들어오면 타겟팅하여 쫓아오고
+   <br/> 해당 거리를 벗어나면 다시 원래 자리로 돌아가는 로직입니다.
+```
+void update()
+{
+     if (Vector3.Distance(target.position, transform.position) > 5f&& nav.enabled&&enemyType!=Type.D)
+     {
+         isChase = false;
+         nav.isStopped = false;
+         anim.SetBool("isWalk", false);
+         returnBase();
+     }
+     else if(Vector3.Distance(target.position, transform.position) <= 5f && nav.enabled && enemyType != Type.D)
+     {
+         isChase = true;
+         anim.SetBool("isWalk", true);
+         nav.SetDestination(target.position); //setDestionation():도착할 목표 위치 지정 함수
+         nav.isStopped = false;  
+     }
+}
+```
+```
+void update()
+{
+    void returnBase()
+    {
+        nav.isStopped = false;
+        anim.SetBool("isWalk", true);
+        if (enemyType == Type.A)
+        {
+            nav.SetDestination(responPosition);
+            if (Vector3.Distance(transform.position, responPosition) < 0.5f)
+            {
+                nav.isStopped = true;
+                anim.SetBool("isWalk", false);
+            }
+        }
+        else if (enemyType == Type.B)
+        {
+            nav.SetDestination(gamemanager.enemyZones[1].position);
+            if (Vector3.Distance(transform.position, gamemanager.enemyZones[1].position) < 2f)
+            {
+                nav.isStopped = true;
+                anim.SetBool("isWalk", false); //대쉬 공격 수정 사항 1. 애초에 따라오는 속도가 너무 빠름
+            }
+        }
+        else
+        {
+            nav.SetDestination(gamemanager.enemyZones[2].position);
+            if (Vector3.Distance(transform.position, gamemanager.enemyZones[2].position) < 0.4f)
+            {
+                nav.isStopped = true;
+                anim.SetBool("isWalk", false); // 원거리 공격 수정 사항 1. 공격 딜레이 때문에 따라오지 않음 => 일정 거리 안에서 멈춰서 사격하는걸로 바꾸기
+            }
+        }
+        
+    }
+}
+```
 <br/>
 
 ## MapDesign
