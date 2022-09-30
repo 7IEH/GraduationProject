@@ -446,7 +446,7 @@ void LateUpdate()
    ><br/> 이때 스테이지 진입전에는 항시 enemyCnt가 0이니까 하나 더 조건을 추가합니다. 현재 배틀중인지를 확인하는 IsBattle 멤버변수를 추가하여 StageStart 함수에서
    ><br/> true로 변환하여 lateupdate에서 확인합니다. 이때 enemyCnt가 0이 되고 현재 isBattle이 true이면 stageEnd 함수를 실행합니다.
    ><br/> stageEnd 함수는 상술한 각각의 스테이지를 확인하는 숫자를 조건으로 if문을 통해 실행합니다.
-  '''
+  ```
   // 스테이지 입구에 있는 gameobject OnTriggerEnter함수
   public class EnterLock : MonoBehaviour
 {
@@ -459,8 +459,8 @@ void LateUpdate()
             manager.StageStart(gate);
     }
 }
-  '''
-  '''
+  ```
+  ```
   public void StageStart(int gate)
   {
         if (gate == 0)
@@ -494,8 +494,8 @@ void LateUpdate()
             isBattle = true;
         }
  }
-  '''
-  '''
+  ```
+  ```
   //
   void LateUpdate()
   {
@@ -504,8 +504,8 @@ void LateUpdate()
             StageEnd();
    }
   }
-  '''
-  '''
+  ```
+  ```
   public void StageEnd()
   {
         if (gate_num == 0)
@@ -514,7 +514,7 @@ void LateUpdate()
             isBattle = false;
         }
   }
-  '''
+  ```
   - [**어그로 로직**]
    ![image](https://user-images.githubusercontent.com/80614927/193107878-efa5b1de-7f1d-4625-b873-dc418535dbf5.png)
 
