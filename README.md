@@ -625,9 +625,6 @@ void Update()
 }
 ```
 
-![Tutorial_Trim](https://user-images.githubusercontent.com/80614927/193411624-374149ba-1bf2-4a25-8c4d-2df4ca3d3cfd.gif)
-
-
 ## MapDesign
 * [**Prototype**]
 ![image](https://user-images.githubusercontent.com/80614927/193028127-41d00cc4-e043-4ade-9637-5d2feaf6f3ef.png)
