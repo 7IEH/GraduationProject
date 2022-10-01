@@ -561,7 +561,7 @@ void update()
             if (Vector3.Distance(transform.position, gamemanager.enemyZones[1].position) < 2f)
             {
                 nav.isStopped = true;
-                anim.SetBool("isWalk", false); //대쉬 공격 수정 사항 1. 애초에 따라오는 속도가 너무 빠름
+                anim.SetBool("isWalk", false);
             }
         }
         else
@@ -570,7 +570,7 @@ void update()
             if (Vector3.Distance(transform.position, gamemanager.enemyZones[2].position) < 0.4f)
             {
                 nav.isStopped = true;
-                anim.SetBool("isWalk", false); // 원거리 공격 수정 사항 1. 공격 딜레이 때문에 따라오지 않음 => 일정 거리 안에서 멈춰서 사격하는걸로 바꾸기
+                anim.SetBool("isWalk", false);
             }
         }
         
@@ -579,7 +579,46 @@ void update()
 ```
   - [**플레이어 시점 문제 개선**]
   <img width="80%" src="https://user-images.githubusercontent.com/80614927/193410585-da397d74-f6e0-465a-b53a-658bbbd0af46.gif"/>
+><br/> 프로젝트 진행 사항 발표 때 지적 받았던 쿼터 뷰 시점에서 지형물에 의한 플레이어 시점 방해 문제를 개선하기 위해
+><br/> player를 따라다니는 카메라 오브젝트에 player를 향해 상시로 raycast 쏘아서 hit시에 현재 보고 있는 물체가 player가 아니고
+><br/> 다른 물체이면 해당 object를 배열에 담아놓고 비활성화 시킵니다. 다시 player를 camera가 비춘다면 
+><br/> 배열에 넣어둔 비활성화 시킨 오브젝트들을 활성화 시킵니다.
+```
+void Update()
+    {
+        transform.position = target.position + offset;
+        float Distance = Vector3.Distance(transform.position, target.transform.position);
+        Vector3 Direction = (target.transform.position - transform.position).normalized;
+        RaycastHit hit;
+        Debug.DrawRay(transform.position, Direction*Distance, Color.red);
+        if(Physics.Raycast(transform.position, Direction ,out hit, Distance))
+        {
+            if (hit.collider.gameObject.name == "Player")
+            {
+                for (int i = 0; i < index; i++)
+                {
 
+                    arrayObject[i].SetActive(true);
+                    arrayObject[i] = arrayObject[i + 1];
+                    arrayObject[i + 1] = null;
+                    index = i - 1;
+                }
+            }
+         }
+         else
+            {
+                for (int i = 0; i < 5; i++)
+                {
+                    if (arrayObject[i] == null)
+                    {
+                        arrayObject[i] = hit.collider.gameObject;
+                        index = i;
+                        arrayObject[index].SetActive(false);
+                        break;
+                    }
+                }
+            }
+```
 
 
 ## MapDesign
