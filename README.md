@@ -579,6 +579,7 @@ void update()
 ```
   - [**플레이어 시점 문제 개선**]
   <img width="80%" src="https://user-images.githubusercontent.com/80614927/193410585-da397d74-f6e0-465a-b53a-658bbbd0af46.gif"/>
+  
 ><br/> 프로젝트 진행 사항 발표 때 지적 받았던 쿼터 뷰 시점에서 지형물에 의한 플레이어 시점 방해 문제를 개선하기 위해
 ><br/> player를 따라다니는 카메라 오브젝트에 player를 향해 상시로 raycast 쏘아서 hit시에 현재 보고 있는 물체가 player가 아니고
 ><br/> 다른 물체이면 해당 object를 배열에 담아놓고 비활성화 시킵니다. 다시 player를 camera가 비춘다면 
@@ -586,7 +587,7 @@ void update()
 
 ```
 void Update()
-{
+    {
         transform.position = target.position + offset;
         float Distance = Vector3.Distance(transform.position, target.transform.position);
         Vector3 Direction = (target.transform.position - transform.position).normalized;
@@ -607,7 +608,7 @@ void Update()
             }
          }
          else
-         {
+            {
                 for (int i = 0; i < 5; i++)
                 {
                     if (arrayObject[i] == null)
@@ -618,8 +619,7 @@ void Update()
                         break;
                     }
                 }
-         }
-}
+            }
 ```
 
 
