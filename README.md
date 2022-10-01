@@ -583,10 +583,10 @@ void update()
 ><br/> player를 따라다니는 카메라 오브젝트에 player를 향해 상시로 raycast 쏘아서 hit시에 현재 보고 있는 물체가 player가 아니고
 ><br/> 다른 물체이면 해당 object를 배열에 담아놓고 비활성화 시킵니다. 다시 player를 camera가 비춘다면 
 ><br/> 배열에 넣어둔 비활성화 시킨 오브젝트들을 활성화 시킵니다.
-><br/>
+
 ```
 void Update()
-    {
+{
         transform.position = target.position + offset;
         float Distance = Vector3.Distance(transform.position, target.transform.position);
         Vector3 Direction = (target.transform.position - transform.position).normalized;
@@ -607,7 +607,7 @@ void Update()
             }
          }
          else
-            {
+         {
                 for (int i = 0; i < 5; i++)
                 {
                     if (arrayObject[i] == null)
@@ -618,7 +618,8 @@ void Update()
                         break;
                     }
                 }
-            }
+         }
+}
 ```
 
 
