@@ -232,7 +232,7 @@ public void profession(int num)
 ```
 * [**Player Logic**]
   - [**튜토리얼**]
-   ![image](https://user-images.githubusercontent.com/80614927/193109874-3602856b-8dc5-4376-8259-eb8d6e3e4080.png)
+   <img width="80%" src="https://user-images.githubusercontent.com/80614927/193411624-374149ba-1bf2-4a25-8c4d-2df4ca3d3cfd.gif"/>
 ><br/>1. GameManager에서 GameStart 함수가 실행되면서 시작됩니다. 이때 PanelUI의 animation과 textUI를 셋팅 시켜 해당 조건을 만족할 경우 다음 tutorial을 불러오게 끔합니다. 
 ><br/>2. tutorial 함수에서는 항상 해당 조건이 완료되었는지 모르니 tu_next라는 bool 멤버 변수를 주어 해당 변수가 true가 되면 GameManager에 LateUpdate로 하여금 
 ><br/>다음 튜토리얼 진행하게 끔합니다.
@@ -622,6 +622,8 @@ void Update()
             }
 }
 ```
+
+![Tutorial_Trim](https://user-images.githubusercontent.com/80614927/193411624-374149ba-1bf2-4a25-8c4d-2df4ca3d3cfd.gif)
 
 
 ## MapDesign
