@@ -579,7 +579,8 @@ void update()
 ```
 <br/>
   - [**플레이어 시점 문제 개선**]
-  <img width="80%" src="https://user-images.githubusercontent.com/80614927/193410585-da397d74-f6e0-465a-b53a-658bbbd0af46.gif"/>
+  ![벽상호작용_Trim](https://user-images.githubusercontent.com/80614927/193410585-da397d74-f6e0-465a-b53a-658bbbd0af46.gif)
+
 
 
 ## MapDesign
