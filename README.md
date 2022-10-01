@@ -2,6 +2,8 @@
 ## Summary
 Unity engine 기반 quarterview 로그라이크형식 Game Development project
 
+## PlayVideo
+[**Youtube**](https://www.youtube.com/watch?v=wPUcOyoIqOs)
 
 ## Teammates
 
