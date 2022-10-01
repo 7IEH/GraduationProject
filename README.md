@@ -578,6 +578,9 @@ void update()
 }
 ```
 <br/>
+  -[**플레이어 시점 문제 개선**]
+  https://user-images.githubusercontent.com/80614927/193410393-75137c0a-0c7c-42df-b7d9-7006a130ba5b.mp4
+
 
 ## MapDesign
 * [**Prototype**]
